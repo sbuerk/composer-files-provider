@@ -14,6 +14,9 @@
         "general": "https://github.com/sbuerk/files-provider/issues",
         "issues": "https://github.com/sbuerk/files-provider/issues"
     },
+    "config": {
+        "sort-packages": true
+    },
     "require": {
         "php": "^7.2 || ^7.3 || ^7.4 || ^8.0 || ^8.1",
         "composer-plugin-api": "^1.1.0"
