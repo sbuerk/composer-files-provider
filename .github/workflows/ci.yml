@@ -52,6 +52,12 @@ jobs:
       - name: Lint
         run: composer ci:php:lint
 
+      # as long as PHP7.2 is supported, we cannot use a newer php-cs-fixer version which is compatible with PHP8.1+,
+      # thus we have to limit cgl run down to lower than PHP8.1.
+      # @todo remove version check after min PHP version has been raised to >= PHP7.4
       - name: CGL
         if: ${{ matrix.php-version < '8.1' }}
         run: composer cgl:check
+
+      - name: UnitTests
+        run: composer ci:php:tests:unit
