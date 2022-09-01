@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron:  '56 4 * * *'
+
+jobs:
+  build-php:
+    name: PHP ${{ matrix.php-version }} with Composer ${{ matrix.composer-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 6
+      fail-fast: false
+      matrix:
+        php-version:
+          - "7.2"
+          - "7.3"
+          - "7.4"
+          - "8.0"
+          - "8.1"
+        composer-version:
+          - "v1"
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Setup PHP version and composer
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          tools: composer:${{ matrix.composer-version }}
+
+      - name: Environment Check
+        run: |
+          php --version
+          composer --version
+
+      - name: Install composer dependencies
+        if: ${{ matrix.php-version <= '8.1' }}
+        run: composer update
+
+      - name: Install composer dependencies PHP 8.2
+        # @todo: Needed until prophecy (req by phpunit) allows PHP 8.2, https://github.com/phpspec/prophecy/issues/556
+        if: ${{ matrix.php-version > '8.1' }}
+        run: composer update --ignore-platform-req=php+
+
+      - name: Info
+        run: composer info
+
+      - name: Lint
+        run: composer ci:php:lint
+
+      - name: CGL
+        if: ${{ matrix.php-version < '8.1' }}
+        run: composer cgl:check

@@ -18,7 +18,7 @@ For the full copyright and license information, please read the
 LICENSE.txt file that was distributed with this source code.
 EOF;
 
-return \PhpCsFixer\Config::create()
+return (new \PhpCsFixer\Config())
     ->setRiskyAllowed(true)
     ->setRules([
         '@DoctrineAnnotation' => true,
@@ -122,7 +122,8 @@ return \PhpCsFixer\Config::create()
         'whitespace_after_comma_in_array' => true,
     ])
     ->setFinder(
-        \PhpCsFixer\Finder::create()
-            ->in(realpath(__DIR__ . '/../../'))
-            ->ignoreVCSIgnored()
+        (new PhpCsFixer\Finder())
+            ->in(dirname(dirname(__DIR__)) . '/')
+            ->ignoreVCSIgnored(true)
+            ->notPath('/^Build\/php-cs-fixer\/php-cs-fixer.php/')
     );
