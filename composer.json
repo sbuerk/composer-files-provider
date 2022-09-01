@@ -1,0 +1,20 @@
+{
+    "name": "sbuerk/files-provider",
+    "description": "Copies template files and provide them installation aware",
+    "type": "composer-plugin",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Stefan Bürk",
+            "email": "stefan@buerk.tech"
+        }
+    ],
+    "support": {
+        "general": "https://github.com/sbuerk/files-provider/issues",
+        "issues": "https://github.com/sbuerk/files-provider/issues"
+    },
+    "require": {
+        "php": "^7.2 || ^7.3 || ^7.4 || ^8.0 || ^8.1",
+        "composer-plugin-api": "^1.1.0"
+    }
+}
