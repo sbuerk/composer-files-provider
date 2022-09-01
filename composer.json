@@ -22,6 +22,7 @@
         "composer-plugin-api": "^1.1.0"
     },
     "require-dev": {
+        "composer/composer": "^1.10",
         "overtrue/phplint": "^2.4.1"
     },
     "autoload": {
