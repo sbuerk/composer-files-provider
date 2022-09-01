@@ -2,6 +2,7 @@
     "name": "sbuerk/files-provider",
     "description": "Copies template files and provide them installation aware",
     "type": "composer-plugin",
+    "homepage": "https://github.com/sbuerk/files-provider",
     "license": "GPL-2.0-or-later",
     "authors": [
         {
@@ -16,5 +17,25 @@
     "require": {
         "php": "^7.2 || ^7.3 || ^7.4 || ^8.0 || ^8.1",
         "composer-plugin-api": "^1.1.0"
+    },
+    "require-dev": {
+        "overtrue/phplint": "^2.4.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sbuerk\\FilesProvider\\": "src/"
+        }
+    },
+    "scripts": {
+        "ci:test": [
+            "@ci:php:lint"
+        ],
+        "ci:php:lint": [
+            "phplint --configuration=Build/phplint/phplint.yml"
+        ]
+    },
+    "scripts-descriptions": {
+        "ci:test": "Execute all lintings and tests in sequence",
+        "ci:php:lint": "Lint php files"
     }
 }
