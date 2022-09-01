@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+         backupGlobals="true"
+         backupStaticAttributes="false"
+         cacheResult="false"
+         colors="true"
+         convertDeprecationsToExceptions="true"
+         convertErrorsToExceptions="true"
+         convertWarningsToExceptions="true"
+         convertNoticesToExceptions="true"
+         forceCoversAnnotation="false"
+         processIsolation="false"
+         stopOnError="false"
+         stopOnFailure="false"
+         stopOnIncomplete="false"
+         stopOnSkipped="false"
+         verbose="false"
+         beStrictAboutTestsThatDoNotTestAnything="false"
+         bootstrap="UnitTestsBootstrap.php"
+         failOnWarning="true"
+         failOnRisky="true"
+>
+<!--
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">../../src</directory>
+        </include>
+    </coverage>
+-->
+    <testsuites>
+        <testsuite name="UnitTests">
+            <directory>../../Tests/Unit</directory>
+        </testsuite>
+    </testsuites>
+
+</phpunit>

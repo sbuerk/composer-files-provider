@@ -1,8 +1,8 @@
 {
-    "name": "sbuerk/files-provider",
+    "name": "sbuerk/composer-files-provider",
     "description": "Copies template files and provide them installation aware",
     "type": "composer-plugin",
-    "homepage": "https://github.com/sbuerk/files-provider",
+    "homepage": "https://github.com/sbuerk/composer-files-provider",
     "license": "GPL-2.0-or-later",
     "authors": [
         {
@@ -11,8 +11,8 @@
         }
     ],
     "support": {
-        "general": "https://github.com/sbuerk/files-provider/issues",
-        "issues": "https://github.com/sbuerk/files-provider/issues"
+        "general": "https://github.com/sbuerk/composer-files-provider/issues",
+        "issues": "https://github.com/sbuerk/composer-files-provider/issues"
     },
     "config": {
         "sort-packages": true
@@ -24,11 +24,17 @@
     "require-dev": {
         "composer/composer": "^1.10",
         "friendsofphp/php-cs-fixer": "^2.19.3",
-        "overtrue/phplint": "^2.4.1"
+        "overtrue/phplint": "^2.4.1",
+        "phpunit/phpunit": "^8.5"
     },
     "autoload": {
         "psr-4": {
-            "SBUERK\\FilesProvider\\": "src/"
+            "SBUERK\\ComposerFilesProvider\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SBUERK\\ComposerFilesProvider\\Tests\\": "Tests/"
         }
     },
     "scripts": {
@@ -38,15 +44,25 @@
         "cgl:fix": [
             "@php vendor/bin/php-cs-fixer fix --config=Build/php-cs-fixer/php-cs-fixer.php "
         ],
-        "ci:test": [
-            "@ci:php:lint"
+        "ci:tests": [
+            "@ci:php:lint",
+            "@ci:php:tests:unit"
+        ],
+        "ci:php:tests:unit": [
+            "@php vendor/bin/phpunit -c Build/phpunit/UnitTests.xml"
         ],
         "ci:php:lint": [
             "phplint --configuration=Build/phplint/phplint.yml"
+        ],
+        "dev:filesproviderplugin:listen": [
+            "SBUERK\\FilesProvider\\FilesProviderPlugin::listen"
         ]
     },
     "scripts-descriptions": {
         "ci:test": "Execute all lintings and tests in sequence",
         "ci:php:lint": "Lint php files"
+    },
+    "extra": {
+        "class": "SBUERK\\FilesProvider\\Plugin\\FilesProvider"
     }
 }

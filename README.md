@@ -20,4 +20,4 @@ section of the root `composer.json`. See section `options` for available options
 ## Feedback / Bug reports / Contribution
 
 Bug reports, feature requests and pull requests are welcome in the GitHub
-repository: <https://github.com/sbuerk/files-provider>
+repository: <https://github.com/sbuerk/composer-files-provider>
