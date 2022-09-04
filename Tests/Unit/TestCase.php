@@ -31,7 +31,8 @@ abstract class TestCase extends BaseTestCase
             $filesystem = new Filesystem();
             $filesystem->removeDirectory($root);
         }
-        if (Silencer::call('mkdir', $root, 0777)) {
+        //if (Silencer::call('mkdir', $root, 0777)) {
+        if (@mkdir($root, 0777, true)) {
             return realpath($root);
         }
         $root = realpath(__DIR__ . '/../..') . '/test-temp/files-provider-test' . ($hash ? '/' . $hash : '');
@@ -39,7 +40,8 @@ abstract class TestCase extends BaseTestCase
             $filesystem = new Filesystem();
             $filesystem->removeDirectory($root);
         }
-        if (Silencer::call('mkdir', $root, 0777)) {
+        //if (Silencer::call('mkdir', $root, 0777)) {
+        if (@mkdir($root, 0777, true)) {
             return realpath($root);
         }
         throw new \RuntimeException('Failed to create a unique temporary directory.');
