@@ -39,38 +39,37 @@ class FilesProvider implements PluginInterface, EventSubscriberInterface
             return;
         }
 
-        $event->getIO()->write('> FilesProvider event: ' . $event->getName(), true);
         $filesProviderService = new FilesProviderService();
         $filesProviderService->process($event->getComposer(), $event->getIO());
     }
 
     public function activate(Composer $composer, IOInterface $io)
     {
-        $io->write('> FilesProvider plugin activated', true);
         $composer->getEventDispatcher()->addSubscriber($this);
     }
 
     public function deactivate(Composer $composer, IOInterface $io)
     {
-        $io->write('> FilesProvider plugin deactivated', true);
+        // noop
     }
 
     public function install(Composer $composer, IOInterface $io)
     {
-        $io->write('> FilesProvider plugin installed', true);
+        // noop
     }
 
     public function uninstall(Composer $composer, IOInterface $io)
     {
-        $io->write('> FilesProvider plugin uninstall', true);
+        // noop
     }
 
     public static function getSubscribedEvents()
     {
         return [
             ScriptEvents::PRE_INSTALL_CMD => ['listen', 50],
+            // We need autoload dump to ensure files gets provided on first plugin installation. This can be
+            // changed if composer 2.1+ support only is etablished
             ScriptEvents::PRE_AUTOLOAD_DUMP => ['listen', 50],
-            ScriptEvents::POST_AUTOLOAD_DUMP => ['listen', 50],
         ];
     }
 }
