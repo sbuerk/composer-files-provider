@@ -119,49 +119,6 @@ class PatternReplacerTest extends TestCase
                 'source' => 'files-to-find.ext',
                 'expected' => 'test-templates/some/paths/some-file.ext',
             ],
-            // long placeholders
-            '"%USERNAME%" gets replaced' => [
-                'replacer' => $defaultReplacer,
-                'pattern' => '/some/paths/%USERNAME%/after/placeholder',
-                'source' => 'files-to-find.ext',
-                'expected' => '/some/paths/fake-user/after/placeholder',
-            ],
-            '"%SOURCE%" gets replaced' => [
-                'replacer' => $defaultReplacer,
-                'pattern' => '/some/paths/%SOURCE%',
-                'source' => 'files-to-find.ext',
-                'expected' => '/some/paths/files-to-find.ext',
-            ],
-            '"%PROJECT_FOLDER%" gets replaced' => [
-                'replacer' => $defaultReplacer,
-                'pattern' => '/some/paths/%PROJECT-FOLDER%/some-file.txt',
-                'source' => 'files-to-find.ext',
-                'expected' => "/some/paths/$projectFolder/some-file.txt",
-            ],
-            '"%PROJECT_PARENT_FOLDER%" gets replaced' => [
-                'replacer' => $defaultReplacer,
-                'pattern' => '/some/paths/%PROJECT-PARENT-FOLDER%/some-file.txt',
-                'source' => 'files-to-find.ext',
-                'expected' => "/some/paths/$projectParentFolder/some-file.txt",
-            ],
-            'project and project parentfolder concated with dash are replaced (long)' => [
-                'replacer' => $defaultReplacer,
-                'pattern' => '/some/paths/%PROJECT-PARENT-FOLDER%-%PROJECT-FOLDER%/some-file.txt',
-                'source' => 'files-to-find.ext',
-                'expected' => "/some/paths/$projectParentFolder-$projectFolder/some-file.txt",
-            ],
-            '"%HOSTNAME%" gets replaced' => [
-                'replacer' => $defaultReplacer,
-                'pattern' => '/some/paths/%HOSTNAME%/some-file.txt',
-                'source' => 'files-to-find.ext',
-                'expected' => '/some/paths/fake-host/some-file.ext',
-            ],
-            '"%TEMPLATE-FOLDER%" gets replaced' => [
-                'replacer' => $defaultReplacer,
-                'pattern' => '%TEMPLATE-FOLDER%/some/paths/some-file.txt',
-                'source' => 'files-to-find.ext',
-                'expected' => 'test-templates/some/paths/some-file.ext',
-            ],
         ];
     }
 

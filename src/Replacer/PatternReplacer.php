@@ -17,13 +17,7 @@ namespace SBUERK\ComposerFilesProvider\Replacer;
 
 class PatternReplacer
 {
-    const PATTERN_LONG_PROJECT_FOLDER = '%PROJECT-FOLDER%';
-    const PATTERN_LONG_PROJECT_PARENT_FOLDER = '%PROJECT-PARENT-FOLDER%';
-    const PATTERN_LONG_USERNAME = '%USERNAME%';
-    const PATTERN_LONG_HOSTNAME = '%HOSTNAME%';
     const PATTERN_LONG_DDEV = '%DDEV%';
-    const PATTERN_LONG_SOURCE = '%SOURCE%';
-    const PATTERN_LONG_TEMPLATE = '%TEMPLATE-FOLDER%';
 
     const PATTERN_SHORT_PROJECT_FOLDER = '%p%';
     const PATTERN_SHORT_PROJECT_PARENT_FOLDER = '%pp%';
@@ -131,13 +125,7 @@ class PatternReplacer
 
         return [
             // long
-            self::PATTERN_LONG_TEMPLATE => $templateFolder,
-            self::PATTERN_LONG_PROJECT_FOLDER => $projectFolder,
-            self::PATTERN_LONG_PROJECT_PARENT_FOLDER => $projectParentFolder,
-            self::PATTERN_LONG_USERNAME => $userName,
-            self::PATTERN_LONG_HOSTNAME => $hostName,
             self::PATTERN_LONG_DDEV => $ddev,
-            self::PATTERN_LONG_SOURCE => $source,
 
             // short
             self::PATTERN_SHORT_TEMPLATE => $templateFolder,
