@@ -132,7 +132,7 @@ class FilesProviderService
             );
         }
 
-        return [];
+        return $fileHandlers;
     }
 
     /**
