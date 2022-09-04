@@ -48,7 +48,7 @@ class FilesProviderService
     protected function processTaskStack(Composer $composer, IOInterface $io, TaskStack $taskStack): void
     {
         foreach ($taskStack->items() as $alias => $items) {
-            foreach($items as $item) {
+            foreach ($items as $item) {
                 $fileProvideHandler = $item['provider'];
                 $resolvedSource = $item['source'];
                 $resolvedTarget = $item['target'];
@@ -195,16 +195,19 @@ class FilesProviderService
 
     protected function getFilesProviderExtraConfig(Composer $composer): array
     {
-        return array_replace_recursive(
-            [
-                'template-root' => 'file-templates',
-                'resolvers' => [
-                    'default' => self::getDefaultResolverPaths(),
-                ],
-                'files' => [],
+        $config = [
+            'template-root' => 'file-templates',
+            'resolvers' => [
+                'default' => [],
             ],
-            $composer->getPackage()->getExtra()['sbuerk/composer-files-provider'] ?? []
-        );
+            'files' => [],
+        ];
+        $packageConfig = $composer->getPackage()->getExtra()['sbuerk/composer-files-provider'] ?? [];
+        $config = array_replace_recursive($config, $packageConfig);
+        if (empty($config['resolvers']['default'])) {
+            $config['resolvers']['default'] = self::getDefaultResolverPaths();
+        }
+        return $config;
     }
 
     protected function getPatternReplacer(Composer $composer): PatternReplacer
