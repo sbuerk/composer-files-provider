@@ -68,10 +68,13 @@ class PathResolverTest extends TestCase
         return [
             '%t%/%h%/%u%/%pp%/%p%/%s%' => implode('/', [$template, $hostname, $username, $projectParentFolder, $projectFolder, $source]),
             '%t%/%h%/%u%/%p%/%s%' => implode('/', [$template, $hostname, $username, $projectFolder, $source]),
+            '%t%/%h%/%u%/%s%' => implode('/', [$template, $hostname, $username, $source]),
             '%t%/%h%/%pp%/%p%/%s%' => implode('/', [$template, $hostname, $projectParentFolder, $projectFolder, $source]),
             '%t%/%h%/%p%/%s%' => implode('/', [$template, $hostname, $projectFolder, $source]),
+            '%t%/%h%/%s%' => implode('/', [$template, $hostname, $source]),
             '%t%/%u%/%pp%/%p%/%s%' => implode('/', [$template, $username, $projectParentFolder, $projectFolder, $source]),
             '%t%/%u%/%p%/%s%' => implode('/', [$template, $username, $projectFolder, $source]),
+            '%t%/%u%/%s%' => implode('/', [$template, $username, $source]),
             '%t%/%pp%/%p%/%s%' => implode('/', [$template, $projectParentFolder, $projectFolder, $source]),
             '%t%/%p%/%s%' => implode('/', [$template, $projectFolder, $source]),
             '%t%/%DDEV%/%s%' => implode('/', [$template, $ddev, $source]),

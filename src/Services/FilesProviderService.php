@@ -225,13 +225,13 @@ class FilesProviderService
         return [
             '%t%/%h%/%u%/%pp%/%p%/%s%',
             '%t%/%h%/%u%/%p%/%s%',
-            // @todo add '%t%/%h%/%u%/%s' - needs tests adjustments
+            '%t%/%h%/%u%/%s%',
             '%t%/%h%/%pp%/%p%/%s%',
             '%t%/%h%/%p%/%s%',
-            // @todo add '%t%/%h%/%s' - needs tests adjustments
+            '%t%/%h%/%s%',
             '%t%/%u%/%pp%/%p%/%s%',
             '%t%/%u%/%p%/%s%',
-            // @todo add '%t%/%u%/%s' - needs tests adjustments
+            '%t%/%u%/%s%',
             '%t%/%pp%/%p%/%s%',
             '%t%/%p%/%s%',
             '%t%/%DDEV%/%s%',

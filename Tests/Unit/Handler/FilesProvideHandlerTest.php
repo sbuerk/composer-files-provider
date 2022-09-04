@@ -109,6 +109,22 @@ class FilesProvideHandlerTest extends TestCase
             ],
             'default pattern #2 matches' => [
                 'files' => [
+                    'test-templates/fake.host.test/fake-user/' . $source => 'dummy-text',
+                ],
+                'isDDEV' => false,
+                'expectedItems' => [
+                    'some-label' => [
+                        0 => [
+                            'type' => TaskStack::TYPE_FILE,
+                            'source' => 'test-templates/fake.host.test/fake-user/' . $source,
+                            'target' => $this->targetPath . '/' . $source,
+                            'matched' => true,
+                        ],
+                    ],
+                ],
+            ],
+            'default pattern #3 matches' => [
+                'files' => [
                     'test-templates/fake.host.test/parent-folder/project-folder/' . $source => 'dummy-text',
                 ],
                 'isDDEV' => false,
@@ -123,7 +139,7 @@ class FilesProvideHandlerTest extends TestCase
                     ],
                 ],
             ],
-            'default pattern #3 matches' => [
+            'default pattern #4 matches' => [
                 'files' => [
                     'test-templates/fake.host.test/project-folder/' . $source => 'dummy-text',
                 ],
@@ -139,7 +155,23 @@ class FilesProvideHandlerTest extends TestCase
                     ],
                 ],
             ],
-            'default pattern #4 matches' => [
+            'default pattern #5 matches' => [
+                'files' => [
+                    'test-templates/fake.host.test/' . $source => 'dummy-text',
+                ],
+                'isDDEV' => false,
+                'expectedItems' => [
+                    'some-label' => [
+                        0 => [
+                            'type' => TaskStack::TYPE_FILE,
+                            'source' => 'test-templates/fake.host.test/' . $source,
+                            'target' => $this->targetPath . '/' . $source,
+                            'matched' => true,
+                        ],
+                    ],
+                ],
+            ],
+            'default pattern #6 matches' => [
                 'files' => [
                     'test-templates/fake-user/parent-folder/project-folder/' . $source => 'dummy-text',
                 ],
@@ -155,7 +187,7 @@ class FilesProvideHandlerTest extends TestCase
                     ],
                 ],
             ],
-            'default pattern #5 matches' => [
+            'default pattern #7 matches' => [
                 'files' => [
                     'test-templates/fake-user/project-folder/' . $source => 'dummy-text',
                 ],
@@ -171,7 +203,23 @@ class FilesProvideHandlerTest extends TestCase
                     ],
                 ],
             ],
-            'default pattern #6 matches' => [
+            'default pattern #8 matches' => [
+                'files' => [
+                    'test-templates/fake-user/' . $source => 'dummy-text',
+                ],
+                'isDDEV' => false,
+                'expectedItems' => [
+                    'some-label' => [
+                        0 => [
+                            'type' => TaskStack::TYPE_FILE,
+                            'source' => 'test-templates/fake-user/' . $source,
+                            'target' => $this->targetPath . '/' . $source,
+                            'matched' => true,
+                        ],
+                    ],
+                ],
+            ],
+            'default pattern #9 matches' => [
                 'files' => [
                     'test-templates/parent-folder/project-folder/' . $source => 'dummy-text',
                 ],
@@ -187,7 +235,7 @@ class FilesProvideHandlerTest extends TestCase
                     ],
                 ],
             ],
-            'default pattern #7 matches' => [
+            'default pattern #10 matches' => [
                 'files' => [
                     'test-templates/project-folder/' . $source => 'dummy-text',
                 ],
@@ -203,7 +251,7 @@ class FilesProvideHandlerTest extends TestCase
                     ],
                 ],
             ],
-            'default pattern #8 matches' => [
+            'default pattern #11 matches' => [
                 'files' => [
                     'test-templates/ddev/' . $source => 'dummy-text',
                 ],
@@ -219,7 +267,7 @@ class FilesProvideHandlerTest extends TestCase
                     ],
                 ],
             ],
-            'default pattern #9 matches' => [
+            'default pattern #12 matches' => [
                 'files' => [
                     'test-templates/default/' . $source => 'dummy-text',
                 ],
