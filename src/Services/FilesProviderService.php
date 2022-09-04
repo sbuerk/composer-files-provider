@@ -47,25 +47,27 @@ class FilesProviderService
 
     protected function processTaskStack(Composer $composer, IOInterface $io, TaskStack $taskStack): void
     {
-        foreach ($taskStack->items() as $item) {
-            $fileProvideHandler = $item['provider'];
-            $resolvedSource = $item['source'];
-            $resolvedTarget = $item['target'];
-            $matched = $item['matched'];
-            if (!$matched) {
-                $io->write($fileProvideHandler->label() . ' - no match');
-                continue;
+        foreach ($taskStack->items() as $alias => $items) {
+            foreach($items as $item) {
+                $fileProvideHandler = $item['provider'];
+                $resolvedSource = $item['source'];
+                $resolvedTarget = $item['target'];
+                $matched = $item['matched'];
+                if (!$matched) {
+                    $io->write($fileProvideHandler->label() . ' - no match');
+                    continue;
+                }
+                if (!file_exists($resolvedSource)) {
+                    $io->writeError($fileProvideHandler->label() . ' - source does not exist: ' . $resolvedSource);
+                    continue;
+                }
+                $this->ensureTargetFolder($resolvedTarget);
+                if (!$this->filesystem->copy($resolvedSource, $resolvedTarget)) {
+                    $io->writeError($fileProvideHandler->label() . ' - could not provide "' . $resolvedSource . '" as "' . $resolvedTarget . '"');
+                    continue;
+                }
+                $io->write($fileProvideHandler->label() . ' - provided "' . $resolvedSource . '" as "' . $resolvedTarget . '"');
             }
-            if (!file_exists($resolvedSource)) {
-                $io->writeError($fileProvideHandler->label() . ' - source does not exist: ' . $resolvedSource);
-                continue;
-            }
-            $this->ensureTargetFolder($resolvedTarget);
-            if (!$this->filesystem->copy($resolvedSource, $resolvedTarget)) {
-                $io->writeError($fileProvideHandler->label() . ' - could not provide "' . $resolvedSource . '" as "' . $resolvedTarget . '"');
-                continue;
-            }
-            $io->write($fileProvideHandler->label() . ' - provided "' . $resolvedSource . '" as "' . $resolvedTarget . '"');
         }
     }
 
@@ -222,10 +224,13 @@ class FilesProviderService
         return [
             '%t%/%h%/%u%/%pp%/%p%/%s%',
             '%t%/%h%/%u%/%p%/%s%',
+            // @todo add '%t%/%h%/%u%/%s' - needs tests adjustments
             '%t%/%h%/%pp%/%p%/%s%',
             '%t%/%h%/%p%/%s%',
+            // @todo add '%t%/%h%/%s' - needs tests adjustments
             '%t%/%u%/%pp%/%p%/%s%',
             '%t%/%u%/%p%/%s%',
+            // @todo add '%t%/%u%/%s' - needs tests adjustments
             '%t%/%pp%/%p%/%s%',
             '%t%/%p%/%s%',
             '%t%/%DDEV%/%s%',

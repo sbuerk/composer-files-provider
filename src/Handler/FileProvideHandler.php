@@ -60,7 +60,8 @@ class FileProvideHandler
 
     public function match(TaskStack $fileProviderTaskStack): void
     {
-        foreach ($this->pathResolver->getResolvedPatterns($this->source) as $pattern => $resolvedPattern) {
+        $resolvedPatterns = $this->pathResolver->getResolvedPatterns($this->source);
+        foreach ($resolvedPatterns as $pattern => $resolvedPattern) {
             // first hit wins
             $resolvedPattern = $this->filesystem->normalizePath($resolvedPattern);
             if (file_exists($resolvedPattern)) {
