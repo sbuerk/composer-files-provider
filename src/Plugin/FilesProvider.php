@@ -29,7 +29,7 @@ class FilesProvider implements PluginInterface, EventSubscriberInterface
 
     public function listen(Event $event)
     {
-        if ($this->handledEvents[$event->getName()] ?? false || $this->handledEvents['files-provider'] ?? false) {
+        if (($this->handledEvents[$event->getName()] ?? false) || ($this->handledEvents['files-provider'] ?? false)) {
             return;
         }
         $this->handledEvents[$event->getName()] = true;
