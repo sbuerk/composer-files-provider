@@ -22,6 +22,7 @@ jobs:
           - "8.1"
         composer-version:
           - "v1"
+          - "v2"
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
@@ -37,14 +38,22 @@ jobs:
           php --version
           composer --version
 
+      - name: Require Composer@v1
+        if: ${{ matrix.composer-version == 'v1' }}
+        run: composer require "composer/composer:^1.10" --dev --no-update
+
+      - name: Require Composer@v2
+        if: ${{ matrix.composer-version == 'v2' }}
+        run: composer require "composer/composer:^2.0" --dev --no-update
+
       - name: Install composer dependencies
         if: ${{ matrix.php-version <= '8.1' }}
-        run: composer update
+        run: composer install
 
       - name: Install composer dependencies PHP 8.2
         # @todo: Needed until prophecy (req by phpunit) allows PHP 8.2, https://github.com/phpspec/prophecy/issues/556
         if: ${{ matrix.php-version > '8.1' }}
-        run: composer update --ignore-platform-req=php+
+        run: composer install --ignore-platform-req=php+
 
       - name: Info
         run: composer info

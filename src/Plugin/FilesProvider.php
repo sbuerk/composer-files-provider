@@ -29,10 +29,15 @@ class FilesProvider implements PluginInterface, EventSubscriberInterface
 
     public function listen(Event $event)
     {
-        if ($this->handledEvents[$event->getName()] ?? false) {
+        if ($this->handledEvents[$event->getName()] ?? false || $this->handledEvents['files-provider'] ?? false) {
             return;
         }
         $this->handledEvents[$event->getName()] = true;
+        $this->handledEvents['files-provider'] = true;
+        // Plugin has been uninstalled
+        if (!file_exists(__FILE__) || !file_exists(dirname(__DIR__) . '/Replacer/PatternReplacer.php')) {
+            return;
+        }
 
         $event->getIO()->write('> FilesProvider event: ' . $event->getName(), true);
         $filesProviderService = new FilesProviderService();
@@ -64,6 +69,8 @@ class FilesProvider implements PluginInterface, EventSubscriberInterface
     {
         return [
             ScriptEvents::PRE_INSTALL_CMD => ['listen', 50],
+            ScriptEvents::PRE_AUTOLOAD_DUMP => ['listen', 50],
+            ScriptEvents::POST_AUTOLOAD_DUMP => ['listen', 50],
         ];
     }
 }
