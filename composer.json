@@ -63,6 +63,6 @@
         "ci:php:lint": "Lint php files"
     },
     "extra": {
-        "class": "SBUERK\\FilesProvider\\Plugin\\FilesProvider"
+        "class": "SBUERK\\ComposerFilesProvider\\Plugin\\FilesProvider"
     }
 }
