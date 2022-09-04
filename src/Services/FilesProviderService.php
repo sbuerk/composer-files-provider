@@ -142,7 +142,7 @@ class FilesProviderService
      */
     protected function getPathResolversForAlias(string $alias, array $pathResolvers): ?PathResolver
     {
-        if (empty($alias) || $pathResolvers[$alias] ?? false) {
+        if (empty($alias) || ($pathResolvers[$alias] ?? false)) {
             $alias = 'default';
         }
         return $pathResolvers[$alias] ?? null;
@@ -158,7 +158,7 @@ class FilesProviderService
         $pathResolversByAlias = [];
         $patternReplacer = $this->getPatternReplacer($composer);
         foreach ($this->getResolversConfig($composer) as $alias => $resolverPathPatterns) {
-            if (!is_string($alias) || !empty($alias)) {
+            if (!is_string($alias) || empty($alias)) {
                 $io->writeError('Invalid alias provided for files-provider resolver configuration: ' . $alias, true);
                 continue;
             }
