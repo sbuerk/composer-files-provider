@@ -46,6 +46,11 @@ class PatternReplacer
      */
     protected $username = '';
 
+    /**
+     * @var string
+     */
+    protected $templateFolder = '';
+
     public function __construct(string $projectRootPath, string $templateFolder)
     {
         $this->projectRootPath = rtrim($projectRootPath, '/');
