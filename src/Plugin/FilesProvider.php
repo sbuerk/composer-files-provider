@@ -25,9 +25,12 @@ use SBUERK\ComposerFilesProvider\Services\FilesProviderService;
 
 class FilesProvider implements PluginInterface, EventSubscriberInterface
 {
+    /**
+     * @var array<string, bool>
+     */
     protected $handledEvents = [];
 
-    public function listen(Event $event)
+    public function listen(Event $event): void
     {
         if (($this->handledEvents[$event->getName()] ?? false) || ($this->handledEvents['files-provider'] ?? false)) {
             return;
@@ -43,27 +46,30 @@ class FilesProvider implements PluginInterface, EventSubscriberInterface
         $filesProviderService->process($event->getComposer(), $event->getIO());
     }
 
-    public function activate(Composer $composer, IOInterface $io)
+    public function activate(Composer $composer, IOInterface $io): void
     {
         $composer->getEventDispatcher()->addSubscriber($this);
     }
 
-    public function deactivate(Composer $composer, IOInterface $io)
+    public function deactivate(Composer $composer, IOInterface $io): void
     {
         // noop
     }
 
-    public function install(Composer $composer, IOInterface $io)
+    public function install(Composer $composer, IOInterface $io): void
     {
         // noop
     }
 
-    public function uninstall(Composer $composer, IOInterface $io)
+    public function uninstall(Composer $composer, IOInterface $io): void
     {
         // noop
     }
 
-    public static function getSubscribedEvents()
+    /**
+     * @return array<non-empty-string, array<int, mixed>>
+     */
+    public static function getSubscribedEvents(): array
     {
         return [
             ScriptEvents::PRE_INSTALL_CMD => ['listen', 50],

@@ -28,13 +28,20 @@ class PathResolverTest extends TestCase
     /**
      * @test
      * @dataProvider pathResolverStackPatternsReplacedProperlyDataProvider
+     *
+     * @param string $source
+     * @param PathResolver $resolver
+     * @param array<non-empty-string, string> $expectedPattern
      */
-    public function pathResolverStackPatternsReplacedProperly(string $source, PathResolver $resolver, array $expected): void
+    public function pathResolverStackPatternsReplacedProperly(string $source, PathResolver $resolver, array $expectedPattern): void
     {
         $actual = $resolver->getResolvedPatterns($source);
-        self::assertSame($expected, $actual);
+        self::assertSame($expectedPattern, $actual);
     }
 
+    /**
+     * @return array<non-empty-string, array{source: string, resolver: PathResolver, expectedPattern: array<non-empty-string, string>}>
+     */
     public function pathResolverStackPatternsReplacedProperlyDataProvider(): array
     {
         $source = '/anyfolder/file.ext';
@@ -46,16 +53,21 @@ class PathResolverTest extends TestCase
             'not ddev' => [
                 'source' => $source,
                 'resolver' => $notDDEV,
-                'expected' => $patternsNotDDEV,
+                'expectedPattern' => $patternsNotDDEV,
             ],
             'is ddev' => [
                 'source' => $source,
                 'resolver' => $DDEV,
-                'expected' => $patternsDDEV,
+                'expectedPattern' => $patternsDDEV,
             ],
         ];
     }
 
+    /**
+     * @param bool $isDDEV
+     * @param string $source
+     * @return array<non-empty-string, string>
+     */
     protected function createPatternWithExpectedValues(bool $isDDEV, string $source): array
     {
         $template = 'test-templates';
@@ -82,6 +94,12 @@ class PathResolverTest extends TestCase
         ];
     }
 
+    /**
+     * @param string $alias
+     * @param array<int, string> $patterns
+     * @param bool $isDDEV
+     * @return PathResolver
+     */
     protected function createPathResolver(string $alias, array $patterns, bool $isDDEV): PathResolver
     {
         return new PathResolver(

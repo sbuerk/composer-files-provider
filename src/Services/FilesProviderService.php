@@ -178,11 +178,20 @@ class FilesProviderService
         return $pathResolversByAlias;
     }
 
+    /**
+     * @param Composer $composer
+     * @param IOInterface $io
+     * @return array<int, array{label?: string, source?: string, target?: string, resolver?: string}>
+     */
     protected function getFilesConfig(Composer $composer, IOInterface $io): array
     {
         return $this->getFilesProviderExtraConfig($composer)['files'] ?? [];
     }
 
+    /**
+     * @param Composer $composer
+     * @return array<string, array<int, string>>
+     */
     protected function getResolversConfig(Composer $composer): array
     {
         return $this->getFilesProviderExtraConfig($composer)['resolvers'] ?? [];
@@ -193,6 +202,10 @@ class FilesProviderService
         return $this->getFilesProviderExtraConfig($composer)['template-root'] ?? 'file-templates';
     }
 
+    /**
+     * @param Composer $composer
+     * @return array<non-empty-string, mixed>
+     */
     protected function getFilesProviderExtraConfig(Composer $composer): array
     {
         $config = [
@@ -207,6 +220,7 @@ class FilesProviderService
         if (empty($config['resolvers']['default'])) {
             $config['resolvers']['default'] = self::getDefaultResolverPaths();
         }
+        /** @var array<non-empty-string, mixed> $config */
         return $config;
     }
 
@@ -223,6 +237,9 @@ class FilesProviderService
         return rtrim($composer->getInstallationManager()->getInstallPath($composer->getPackage()), '/');
     }
 
+    /**
+     * @return string[]
+     */
     public static function getDefaultResolverPaths(): array
     {
         return [

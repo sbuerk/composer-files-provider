@@ -30,10 +30,15 @@ class PathResolver
     protected $patternReplacer;
 
     /**
-     * @var array
+     * @var array<int, string>
      */
     protected $patterns = [];
 
+    /**
+     * @param string $alias
+     * @param array<int, string> $patterns
+     * @param PatternReplacer $patternReplacer
+     */
     public function __construct(string $alias, array $patterns, PatternReplacer $patternReplacer)
     {
         $this->patternReplacer = $patternReplacer;
@@ -49,6 +54,10 @@ class PathResolver
         }
     }
 
+    /**
+     * @param string $source
+     * @return array<string, string>
+     */
     public function getResolvedPatterns(string $source): array
     {
         $return = [];

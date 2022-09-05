@@ -71,6 +71,9 @@ class FilesProvideHandlerTest extends TestCase
         parent::tearDown();
     }
 
+    /**
+     * @return array<string, array{files: array<non-empty-string, string>, isDDEV: bool, expectedItems: array<non-empty-string, list<array{type: string, source: string, target: string, matched: bool}>>}>
+     */
     public function correctSourceFileMatchedDataProvider(): array
     {
         $source = 'sub-path/some-file.txt';
@@ -303,6 +306,9 @@ class FilesProvideHandlerTest extends TestCase
     /**
      * @test
      * @dataProvider correctSourceFileMatchedDataProvider
+     * @param array<non-empty-string, string> $files
+     * @param bool $isDDEV
+     * @param array<non-empty-string, list<array{type: string, source: string, target: string, matched: bool}>> $expectedItems
      */
     public function correctSourceFileMatched(array $files, bool $isDDEV, array $expectedItems): void
     {
@@ -319,14 +325,25 @@ class FilesProvideHandlerTest extends TestCase
         self::assertSame($expectedItems, $items);
     }
 
+    /**
+     * @param array<string, array<int, array{type: string, source: string, target: string, provider: FileProvideHandler, matched: bool}>> $items
+     * @return array<string, array<int, array{type: string, source: string, target: string, matched: bool}>>
+     */
     protected function cleanItems(array $items): array
     {
-        foreach ($items as $type => &$subItems) {
-            foreach ($subItems as $idx => &$item) {
-                unset($item['provider']);
+        /** @var array<string, array<int, array{type: string, source: string, target: string, matched: bool}>> $return */
+        $return = [];
+        foreach ($items as $type => $subItems) {
+            foreach ($subItems as $idx => $item) {
+                foreach ($item as $key => $value) {
+                    if ($key === 'provider') {
+                        continue;
+                    }
+                    $return[$type][$idx][$key] = $value;
+                }
             }
         }
-        return $items;
+        return $return;
     }
 
     protected function createFileProvideHandler(bool $isDDEV): FileProvideHandler
@@ -348,6 +365,9 @@ class FilesProvideHandlerTest extends TestCase
         );
     }
 
+    /**
+     * @param array<non-empty-string, string> $files
+     */
     protected function ensureSourceFiles(array $files): void
     {
         $this->filesystem->ensureDirectoryExists($this->sourcePath);
