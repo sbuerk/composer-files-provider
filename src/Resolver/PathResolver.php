@@ -44,9 +44,6 @@ class PathResolver
         $this->patternReplacer = $patternReplacer;
         $this->alias = $alias;
         foreach ($patterns as $pattern) {
-            if (!is_string($pattern)) {
-                throw new \InvalidArgumentException('$pattern must be a valid string', 1662056638);
-            }
             if (empty($pattern)) {
                 continue;
             }

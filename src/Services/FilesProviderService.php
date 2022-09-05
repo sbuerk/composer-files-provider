@@ -163,7 +163,7 @@ class FilesProviderService
         $pathResolversByAlias = [];
         $patternReplacer = $this->getPatternReplacer($composer);
         foreach ($this->getResolversConfig($composer) as $alias => $resolverPathPatterns) {
-            if (!is_string($alias) || empty($alias)) {
+            if (empty($alias)) {
                 $io->writeError('> ComposerFilesProvider: Invalid alias provided for files-provider resolver configuration: ' . $alias, true);
                 continue;
             }
