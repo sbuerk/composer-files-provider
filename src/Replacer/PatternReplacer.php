@@ -72,10 +72,12 @@ class PatternReplacer
 
     protected function determineUserName(): string
     {
-        if ($username = $this->getEnvUser()) {
+        $username = $this->getEnvUser();
+        if ($username !== '') {
             return $username;
         }
-        if ($home = $this->getEnvHome()) {
+        $home = $this->getEnvHome();
+        if ($home !== '') {
             return basename($home);
         }
         return '';
@@ -83,10 +85,12 @@ class PatternReplacer
 
     protected function determineHostname(): string
     {
-        if ($hostname = $this->getEnvHostname()) {
+        $hostname = $this->getEnvHostname();
+        if ($hostname !== '') {
             return $hostname;
         }
-        if ($hostname = gethostname()) {
+        $hostname = (string)gethostname();
+        if ($hostname !== '') {
             return $hostname;
         }
         return 'localhost';

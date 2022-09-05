@@ -26,7 +26,7 @@ abstract class TestCase extends BaseTestCase
     public function getUniqueTmpDirectory(string $hash = ''): string
     {
         $attempts = 5;
-        $root = sys_get_temp_dir() . '/test-temp/files-provider-test' . ($hash ? '/' . $hash : '');
+        $root = sys_get_temp_dir() . '/test-temp/files-provider-test' . ($hash !== '' ? '/' . $hash : '');
         if (is_dir($root)) {
             $filesystem = new Filesystem();
             $filesystem->removeDirectory($root);
@@ -35,7 +35,7 @@ abstract class TestCase extends BaseTestCase
         if (@mkdir($root, 0777, true)) {
             return (string)realpath($root);
         }
-        $root = realpath(__DIR__ . '/../..') . '/test-temp/files-provider-test' . ($hash ? '/' . $hash : '');
+        $root = realpath(__DIR__ . '/../..') . '/test-temp/files-provider-test' . ($hash !== '' ? '/' . $hash : '');
         if (is_dir($root)) {
             $filesystem = new Filesystem();
             $filesystem->removeDirectory($root);
