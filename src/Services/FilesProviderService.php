@@ -221,6 +221,7 @@ class FilesProviderService
             ],
             'files' => [],
         ];
+        /** @var array<int|string, mixed> $packageConfig */
         $packageConfig = $composer->getPackage()->getExtra()['sbuerk/composer-files-provider'] ?? [];
         $config = array_replace_recursive($config, $packageConfig);
         if (empty($config['resolvers']['default'])) {
