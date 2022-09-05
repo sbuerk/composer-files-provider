@@ -44,11 +44,6 @@ class FileProvideHandler
      */
     protected $filesystem;
 
-    /**
-     * @param string $source
-     * @param string $target
-     * @param PathResolver $pathResolversByAlias
-     */
     public function __construct(string $label, string $source, string $target, PathResolver $pathResolver)
     {
         $this->label = $label;
