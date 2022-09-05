@@ -359,7 +359,7 @@ class FilesProvideHandlerTest extends TestCase
     protected function createPathResolver(string $alias, bool $isDDEV): PathResolver
     {
         return new PathResolver(
-            $alias ?: 'default',
+            $alias !== '' ? $alias : 'default',
             FilesProviderService::getDefaultResolverPaths(),
             $this->createPatternReplacer($this->sourcePath, 'test-templates/', $isDDEV)
         );

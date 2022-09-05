@@ -103,7 +103,7 @@ class PathResolverTest extends TestCase
     protected function createPathResolver(string $alias, array $patterns, bool $isDDEV): PathResolver
     {
         return new PathResolver(
-            $alias ?: 'default',
+            $alias !== '' ? $alias : 'default',
             $patterns,
             $this->createPatternReplacer('/fictive-path/project-parent/project-path/', 'test-templates/', $isDDEV)
         );

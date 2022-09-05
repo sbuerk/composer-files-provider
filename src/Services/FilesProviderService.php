@@ -111,7 +111,9 @@ class FilesProviderService
             $label = (string)($fileConfig['label'] ?? '');
             $sourcePattern = ltrim((string)($fileConfig['source'] ?? ''), '/');
             $targetPattern = (string)($fileConfig['target'] ?? '');
-            $resolver = $this->getPathResolversForAlias((($fileConfig['resolver'] ?? '') ?: 'default'), $pathResolvers);
+            $resolver = ($fileConfig['resolver'] ?? '');
+            $resolver = $resolver !== '' ? $resolver : 'default';
+            $resolver = $this->getPathResolversForAlias($resolver, $pathResolvers);
             if (empty($sourcePattern)) {
                 $io->writeError('> ComposerFilesProvider: No source pattern set for file config: ' . \json_encode($fileConfig), true);
                 continue;
