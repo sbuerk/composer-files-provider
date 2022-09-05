@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace SBUERK\ComposerFilesProvider\Tests\Unit\Replacer;
 
+use SBUERK\ComposerFilesProvider\Replacer\PatternReplacer;
 use SBUERK\ComposerFilesProvider\Tests\Unit\TestCase;
 
 class PatternReplacerTest extends TestCase
@@ -67,7 +68,10 @@ class PatternReplacerTest extends TestCase
         self::assertFalse($subject->isDDEV());
     }
 
-    public function patternAreCorrectlyReplacedDataProvier(): array
+    /**
+     * @return array<string, array{replacer: PatternReplacer, pattern: string, source: string, expected: string}>
+     */
+    public function patternAreCorrectlyReplacedDataProvider(): array
     {
         $projectFolder = 'project-path';
         $projectParentFolder = 'project-parent';
@@ -124,7 +128,7 @@ class PatternReplacerTest extends TestCase
 
     /**
      * @test
-     * @dataProvider patternAreCorrectlyReplacedDataProvier
+     * @dataProvider patternAreCorrectlyReplacedDataProvider
      */
     protected function patternAreCorrectlyReplaced(\SBUERK\ComposerFilesProvider\Replacer\PatternReplacer $replacer, string $pattern, string $source, string $expected): void
     {
