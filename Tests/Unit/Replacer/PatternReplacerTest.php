@@ -23,15 +23,6 @@ class PatternReplacerTest extends TestCase
     /**
      * @test
      */
-    public function canBeInstantiated(): void
-    {
-        $subject = $this->createPatternReplacer('/fictive-path/project-parent/project-path/', 'test-templates/');
-        self::assertInstanceOf(\SBUERK\ComposerFilesProvider\Replacer\PatternReplacer::class, $subject);
-    }
-
-    /**
-     * @test
-     */
     public function returnsFakeUser(): void
     {
         $subject = $this->createPatternReplacer('/fictive-path/project-parent/project-path/', 'test-templates/');
