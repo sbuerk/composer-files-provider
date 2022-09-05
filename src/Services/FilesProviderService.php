@@ -101,7 +101,7 @@ class FilesProviderService
     protected function getFileHandlers(Composer $composer, IOInterface $io): array
     {
         $filesConfig = $this->getFilesConfig($composer, $io);
-        if (!is_array($filesConfig) || $filesConfig === []) {
+        if ($filesConfig === []) {
             return [];
         }
         $pathResolvers = $this->getPathResolvers($composer, $io);
