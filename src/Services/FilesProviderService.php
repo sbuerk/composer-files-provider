@@ -185,7 +185,9 @@ class FilesProviderService
      */
     protected function getFilesConfig(Composer $composer, IOInterface $io): array
     {
-        return $this->getFilesProviderExtraConfig($composer)['files'] ?? [];
+        /** @var array<int, array{label?: string, source?: string, target?: string, resolver?: string}> $filesConfig */
+        $filesConfig = $this->getFilesProviderExtraConfig($composer)['files'] ?? [];
+        return $filesConfig;
     }
 
     /**
@@ -194,12 +196,16 @@ class FilesProviderService
      */
     protected function getResolversConfig(Composer $composer): array
     {
-        return $this->getFilesProviderExtraConfig($composer)['resolvers'] ?? [];
+        /** @var array<string, array<int, string>> $resolverConfig */
+        $resolverConfig = $this->getFilesProviderExtraConfig($composer)['resolvers'] ?? [];
+        return $resolverConfig;
     }
 
     protected function getTemplateRootFolder(Composer $composer): string
     {
-        return $this->getFilesProviderExtraConfig($composer)['template-root'] ?? 'file-templates';
+        /** @var string $templateRoot */
+        $templateRoot = $this->getFilesProviderExtraConfig($composer)['template-root'] ?? 'file-templates';
+        return $templateRoot;
     }
 
     /**
