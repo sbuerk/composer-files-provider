@@ -109,7 +109,7 @@ class FilesProviderService
         $fileHandlers = [];
         foreach ($filesConfig as $fileConfig) {
             $label = (string)($fileConfig['label'] ?? '');
-            $sourcePattern = (string)($fileConfig['source'] ?? '');
+            $sourcePattern = ltrim((string)($fileConfig['source'] ?? ''), '/');
             $targetPattern = (string)($fileConfig['target'] ?? '');
             $resolver = $this->getPathResolversForAlias((($fileConfig['resolver'] ?? '') ?: 'default'), $pathResolvers);
             if (empty($sourcePattern)) {
