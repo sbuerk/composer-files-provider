@@ -147,7 +147,7 @@ class FilesProviderService
      */
     protected function getPathResolversForAlias(string $alias, array $pathResolvers): ?PathResolver
     {
-        if ($alias === '' || ($pathResolvers[$alias] ?? false)) {
+        if ($alias === '' || !(($pathResolvers[$alias] ?? null) instanceof PathResolver)) {
             $alias = 'default';
         }
         return $pathResolvers[$alias] ?? null;
