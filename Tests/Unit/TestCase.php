@@ -23,7 +23,7 @@ use SBUERK\ComposerFilesProvider\Replacer\PatternReplacer;
 
 abstract class TestCase extends BaseTestCase
 {
-    public function getUniqueTmpDirectory(string $hash = '')
+    public function getUniqueTmpDirectory(string $hash = ''): string
     {
         $attempts = 5;
         $root = sys_get_temp_dir() . '/test-temp/files-provider-test' . ($hash ? '/' . $hash : '');
