@@ -118,6 +118,10 @@ class PatternReplacer
         return $pattern;
     }
 
+    /**
+     * @param string $source
+     * @return array<non-empty-string, string>
+     */
     protected function map(string $source): array
     {
         $templateFolder = $this->getTemplateFolder();
