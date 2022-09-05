@@ -27,6 +27,7 @@
         "overtrue/phplint": "^2.4.1",
         "phpstan/phpstan": "^1.8.4",
         "phpstan/phpstan-phpunit": "^1.1.1",
+        "phpstan/phpstan-strict-rules": "^1.4.3",
         "phpunit/phpunit": "^8.5"
     },
     "autoload": {
