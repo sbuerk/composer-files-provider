@@ -21,6 +21,9 @@ class TaskStack
 {
     const TYPE_FILE = 'file';
 
+    /**
+     * @var array<string, array<int, array{type: string, source: string, target: string, provider: FileProvideHandler, matched: bool}>>
+     */
     protected $items = [];
 
     public function add(FileProvideHandler $fileProvideHandler, string $resolvedSource, string $resolvedTarget, bool $matched, string $type): void
@@ -37,6 +40,9 @@ class TaskStack
         ];
     }
 
+    /**
+     * @return array<string, array<int, array{type: string, source: string, target: string, provider: FileProvideHandler, matched: bool}>>
+     */
     public function items(): array
     {
         return $this->items;
