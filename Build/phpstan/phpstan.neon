@@ -1,0 +1,12 @@
+includes:
+  - phpstan-baseline.neon
+
+parameters:
+  # Use local .cache dir instead of /tmp
+  tmpDir: ../../.cache/phpstan
+
+  level: 5
+
+  paths:
+    - ../../src/
+    - ../../Tests/

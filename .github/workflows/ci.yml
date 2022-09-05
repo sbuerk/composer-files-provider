@@ -68,5 +68,8 @@ jobs:
         if: ${{ matrix.php-version < '8.1' }}
         run: composer cgl:check
 
+      - name: Static Code Analysis
+        run: composer ci:php:phpstan:check
+
       - name: UnitTests
         run: composer ci:php:tests:unit

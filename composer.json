@@ -25,6 +25,7 @@
         "composer/composer": "1.2.*@dev || 2.0.*@dev",
         "friendsofphp/php-cs-fixer": "^2.19.3",
         "overtrue/phplint": "^2.4.1",
+        "phpstan/phpstan": "^1.8.4",
         "phpunit/phpunit": "^8.5"
     },
     "autoload": {
@@ -53,6 +54,12 @@
         ],
         "ci:php:lint": [
             "phplint --configuration=Build/phplint/phplint.yml"
+        ],
+        "ci:php:phpstan:check": [
+            "@php vendor/bin/phpstan analyse -c Build/phpstan/phpstan.neon --no-progress --no-interaction --memory-limit 4G"
+        ],
+        "ci:php:phpstan:baseline": [
+            "@php vendor/bin/phpstan analyse -c Build/phpstan/phpstan.neon --no-progress --no-interaction --memory-limit 4G --generate-baseline=Build/phpstan/phpstan-baseline.neon"
         ],
         "dev:filesproviderplugin:listen": [
             "SBUERK\\FilesProvider\\FilesProviderPlugin::listen"
