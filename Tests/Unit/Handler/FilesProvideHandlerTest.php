@@ -54,7 +54,7 @@ class FilesProvideHandlerTest extends TestCase
         parent::setUp();
 
         $this->filesystem = new Filesystem();
-        $this->previousPath = getcwd();
+        $this->previousPath = (string)getcwd();
         $this->rootPath = $this->getUniqueTmpDirectory(sha1(__CLASS__));
         $this->sourcePath = $this->rootPath . '/parent-folder/project-folder';
         $this->targetPath = $this->rootPath . '/target';
@@ -331,7 +331,6 @@ class FilesProvideHandlerTest extends TestCase
      */
     protected function cleanItems(array $items): array
     {
-        /** @var array<string, array<int, array{type: string, source: string, target: string, matched: bool}>> $return */
         $return = [];
         foreach ($items as $type => $subItems) {
             foreach ($subItems as $idx => $item) {
@@ -343,6 +342,7 @@ class FilesProvideHandlerTest extends TestCase
                 }
             }
         }
+        /** @var array<string, array<int, array{type: string, source: string, target: string, matched: bool}>> $return */
         return $return;
     }
 

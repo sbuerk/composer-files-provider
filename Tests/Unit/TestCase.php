@@ -33,7 +33,7 @@ abstract class TestCase extends BaseTestCase
         }
         //if (Silencer::call('mkdir', $root, 0777)) {
         if (@mkdir($root, 0777, true)) {
-            return realpath($root);
+            return (string)realpath($root);
         }
         $root = realpath(__DIR__ . '/../..') . '/test-temp/files-provider-test' . ($hash ? '/' . $hash : '');
         if (is_dir($root)) {
@@ -42,7 +42,7 @@ abstract class TestCase extends BaseTestCase
         }
         //if (Silencer::call('mkdir', $root, 0777)) {
         if (@mkdir($root, 0777, true)) {
-            return realpath($root);
+            return (string)realpath($root);
         }
         throw new \RuntimeException('Failed to create a unique temporary directory.');
     }

@@ -47,7 +47,7 @@ class FilesProviderServiceTest extends TestCase
     {
         parent::setUp();
         $this->filesystem = new Filesystem();
-        $this->previousPath = getcwd();
+        $this->previousPath = (string)getcwd();
         $this->rootPath = $this->getUniqueTmpDirectory(sha1(__CLASS__));
     }
 
