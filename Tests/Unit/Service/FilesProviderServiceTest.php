@@ -38,6 +38,11 @@ class FilesProviderServiceTest extends TestCase
      */
     protected $rootPath = '';
 
+    /**
+     * @var Filesystem
+     */
+    protected $filesystem;
+
     protected function setUp(): void
     {
         parent::setUp();
