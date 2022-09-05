@@ -167,7 +167,7 @@ class FilesProviderService
                 $io->writeError('> ComposerFilesProvider: Invalid alias provided for files-provider resolver configuration: ' . $alias, true);
                 continue;
             }
-            if (!is_array($resolverPathPatterns) || $resolverPathPatterns === []) {
+            if ($resolverPathPatterns === []) {
                 $io->writeError('> ComposerFilesProvider: Invalid or empty path pattern provided for files-provider resolver ' . $alias . ' configuration.', true);
                 continue;
             }
