@@ -44,7 +44,7 @@ class PathResolver
         $this->patternReplacer = $patternReplacer;
         $this->alias = $alias;
         foreach ($patterns as $pattern) {
-            if (empty($pattern)) {
+            if ($pattern === '') {
                 continue;
             }
             $this->patterns[] = $pattern;

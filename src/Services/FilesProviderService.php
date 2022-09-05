@@ -114,11 +114,11 @@ class FilesProviderService
             $resolver = ($fileConfig['resolver'] ?? '');
             $resolver = $resolver !== '' ? $resolver : 'default';
             $resolver = $this->getPathResolversForAlias($resolver, $pathResolvers);
-            if (empty($sourcePattern)) {
+            if ($sourcePattern === '') {
                 $io->writeError('> ComposerFilesProvider: No source pattern set for file config: ' . \json_encode($fileConfig), true);
                 continue;
             }
-            if (empty($targetPattern)) {
+            if ($targetPattern === '') {
                 $io->writeError('> ComposerFilesProvider: No target pattern set for file config: ' . \json_encode($fileConfig), true);
                 continue;
             }
@@ -126,7 +126,7 @@ class FilesProviderService
                 $io->writeError('> ComposerFilesProvider: Could not find resolver for file config: ' . \json_encode($fileConfig), true);
                 continue;
             }
-            if (empty($label)) {
+            if ($label === '') {
                 $label = '"' . $sourcePattern . '"';
             }
             $fileHandlers[] = new FileProvideHandler(
@@ -147,7 +147,7 @@ class FilesProviderService
      */
     protected function getPathResolversForAlias(string $alias, array $pathResolvers): ?PathResolver
     {
-        if (empty($alias) || ($pathResolvers[$alias] ?? false)) {
+        if ($alias === '' || ($pathResolvers[$alias] ?? false)) {
             $alias = 'default';
         }
         return $pathResolvers[$alias] ?? null;
@@ -163,7 +163,7 @@ class FilesProviderService
         $pathResolversByAlias = [];
         $patternReplacer = $this->getPatternReplacer($composer);
         foreach ($this->getResolversConfig($composer) as $alias => $resolverPathPatterns) {
-            if (empty($alias)) {
+            if ($alias === '') {
                 $io->writeError('> ComposerFilesProvider: Invalid alias provided for files-provider resolver configuration: ' . $alias, true);
                 continue;
             }
@@ -226,7 +226,7 @@ class FilesProviderService
         /** @var array<int|string, mixed> $packageConfig */
         $packageConfig = $composer->getPackage()->getExtra()['sbuerk/composer-files-provider'] ?? [];
         $config = array_replace_recursive($config, $packageConfig);
-        if (empty($config['resolvers']['default'])) {
+        if (($config['resolvers']['default'] ?? '') === '') {
             $config['resolvers']['default'] = self::getDefaultResolverPaths();
         }
         /** @var array<non-empty-string, mixed> $config */
