@@ -226,7 +226,7 @@ class FilesProviderService
         /** @var array<int|string, mixed> $packageConfig */
         $packageConfig = $composer->getPackage()->getExtra()['sbuerk/composer-files-provider'] ?? [];
         $config = array_replace_recursive($config, $packageConfig);
-        if (($config['resolvers']['default'] ?? '') === '') {
+        if (($config['resolvers']['default'] ?? []) === []) {
             $config['resolvers']['default'] = self::getDefaultResolverPaths();
         }
         /** @var array<non-empty-string, mixed> $config */
