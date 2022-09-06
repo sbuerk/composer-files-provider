@@ -67,7 +67,7 @@ class FilesProvider implements PluginInterface, EventSubscriberInterface
     }
 
     /**
-     * @return array<non-empty-string, array<int, mixed>>
+     * @return array<string, array<array{0: string, 1?: int}|int|string>|string>
      */
     public static function getSubscribedEvents(): array
     {
