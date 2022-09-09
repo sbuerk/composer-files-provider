@@ -16,6 +16,7 @@ declare(strict_types=1);
 namespace SBUERK\ComposerFilesProvider\Tests\Unit\Handler;
 
 use Composer\Util\Filesystem;
+use SBUERK\ComposerFilesProvider\Config\FileConfig;
 use SBUERK\ComposerFilesProvider\Handler\FileProvideHandler;
 use SBUERK\ComposerFilesProvider\Resolver\PathResolver;
 use SBUERK\ComposerFilesProvider\Services\FilesProviderService;
@@ -88,7 +89,7 @@ class FilesProvideHandlerTest extends TestCase
                         0 => [
                             'type' => TaskStack::TYPE_FILE,
                             'source' => 'test-templates/fake.host.test/fake-user/parent-folder/project-folder/' . $source,
-                            'target' => $this->targetPath . '/' . $source,
+                            'target' => ltrim($source, '/'),
                             'matched' => true,
                         ],
                     ],
@@ -104,7 +105,7 @@ class FilesProvideHandlerTest extends TestCase
                         0 => [
                             'type' => TaskStack::TYPE_FILE,
                             'source' => 'test-templates/fake.host.test/fake-user/project-folder/' . $source,
-                            'target' => $this->targetPath . '/' . $source,
+                            'target' => ltrim($source, '/'),
                             'matched' => true,
                         ],
                     ],
@@ -120,7 +121,7 @@ class FilesProvideHandlerTest extends TestCase
                         0 => [
                             'type' => TaskStack::TYPE_FILE,
                             'source' => 'test-templates/fake.host.test/fake-user/' . $source,
-                            'target' => $this->targetPath . '/' . $source,
+                            'target' => ltrim($source, '/'),
                             'matched' => true,
                         ],
                     ],
@@ -136,7 +137,7 @@ class FilesProvideHandlerTest extends TestCase
                         0 => [
                             'type' => TaskStack::TYPE_FILE,
                             'source' => 'test-templates/fake.host.test/parent-folder/project-folder/' . $source,
-                            'target' => $this->targetPath . '/' . $source,
+                            'target' => ltrim($source, '/'),
                             'matched' => true,
                         ],
                     ],
@@ -152,7 +153,7 @@ class FilesProvideHandlerTest extends TestCase
                         0 => [
                             'type' => TaskStack::TYPE_FILE,
                             'source' => 'test-templates/fake.host.test/project-folder/' . $source,
-                            'target' => $this->targetPath . '/' . $source,
+                            'target' => ltrim($source, '/'),
                             'matched' => true,
                         ],
                     ],
@@ -168,7 +169,7 @@ class FilesProvideHandlerTest extends TestCase
                         0 => [
                             'type' => TaskStack::TYPE_FILE,
                             'source' => 'test-templates/fake.host.test/' . $source,
-                            'target' => $this->targetPath . '/' . $source,
+                            'target' => ltrim($source, '/'),
                             'matched' => true,
                         ],
                     ],
@@ -184,7 +185,7 @@ class FilesProvideHandlerTest extends TestCase
                         0 => [
                             'type' => TaskStack::TYPE_FILE,
                             'source' => 'test-templates/fake-user/parent-folder/project-folder/' . $source,
-                            'target' => $this->targetPath . '/' . $source,
+                            'target' => ltrim($source, '/'),
                             'matched' => true,
                         ],
                     ],
@@ -200,7 +201,7 @@ class FilesProvideHandlerTest extends TestCase
                         0 => [
                             'type' => TaskStack::TYPE_FILE,
                             'source' => 'test-templates/fake-user/project-folder/' . $source,
-                            'target' => $this->targetPath . '/' . $source,
+                            'target' => ltrim($source, '/'),
                             'matched' => true,
                         ],
                     ],
@@ -216,7 +217,7 @@ class FilesProvideHandlerTest extends TestCase
                         0 => [
                             'type' => TaskStack::TYPE_FILE,
                             'source' => 'test-templates/fake-user/' . $source,
-                            'target' => $this->targetPath . '/' . $source,
+                            'target' => ltrim($source, '/'),
                             'matched' => true,
                         ],
                     ],
@@ -232,7 +233,7 @@ class FilesProvideHandlerTest extends TestCase
                         0 => [
                             'type' => TaskStack::TYPE_FILE,
                             'source' => 'test-templates/parent-folder/project-folder/' . $source,
-                            'target' => $this->targetPath . '/' . $source,
+                            'target' => ltrim($source, '/'),
                             'matched' => true,
                         ],
                     ],
@@ -248,7 +249,7 @@ class FilesProvideHandlerTest extends TestCase
                         0 => [
                             'type' => TaskStack::TYPE_FILE,
                             'source' => 'test-templates/project-folder/' . $source,
-                            'target' => $this->targetPath . '/' . $source,
+                            'target' => ltrim($source, '/'),
                             'matched' => true,
                         ],
                     ],
@@ -264,7 +265,7 @@ class FilesProvideHandlerTest extends TestCase
                         0 => [
                             'type' => TaskStack::TYPE_FILE,
                             'source' => 'test-templates/ddev/' . $source,
-                            'target' => $this->targetPath . '/' . $source,
+                            'target' => ltrim($source, '/'),
                             'matched' => true,
                         ],
                     ],
@@ -280,7 +281,7 @@ class FilesProvideHandlerTest extends TestCase
                         0 => [
                             'type' => TaskStack::TYPE_FILE,
                             'source' => 'test-templates/default/' . $source,
-                            'target' => $this->targetPath . '/' . $source,
+                            'target' => ltrim($source, '/'),
                             'matched' => true,
                         ],
                     ],
@@ -294,7 +295,7 @@ class FilesProvideHandlerTest extends TestCase
                         0 => [
                             'type' => TaskStack::TYPE_FILE,
                             'source' => '',
-                            'target' => $this->targetPath . '/' . $source,
+                            'target' => ltrim($source, '/'),
                             'matched' => false,
                         ],
                     ],
@@ -349,10 +350,17 @@ class FilesProvideHandlerTest extends TestCase
     protected function createFileProvideHandler(bool $isDDEV): FileProvideHandler
     {
         return new FileProvideHandler(
-            'some-label',
-            '/sub-path/some-file.txt',
-            $this->targetPath . '/%s%',
-            $this->createPathResolver('default', $isDDEV)
+            FileConfig::fromArray(
+                [
+                    'label' => 'some-label',
+                    'source' => '/sub-path/some-file.txt',
+                    'target' => $this->targetPath . '/%s%',
+                    'resolver' => 'default',
+                ],
+                [
+                    'default' => $this->createPathResolver('default', $isDDEV),
+                ]
+            )
         );
     }
 

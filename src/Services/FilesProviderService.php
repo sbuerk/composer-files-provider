@@ -19,6 +19,7 @@ use Composer\Composer;
 use Composer\Config;
 use Composer\IO\IOInterface;
 use Composer\Util\Filesystem;
+use SBUERK\ComposerFilesProvider\Config\FileConfig;
 use SBUERK\ComposerFilesProvider\Handler\FileProvideHandler;
 use SBUERK\ComposerFilesProvider\Replacer\PatternReplacer;
 use SBUERK\ComposerFilesProvider\Resolver\PathResolver;
@@ -108,34 +109,21 @@ class FilesProviderService
         $pathResolvers = $this->getPathResolvers($composer, $io);
 
         $fileHandlers = [];
-        foreach ($filesConfig as $fileConfig) {
-            $label = (string)($fileConfig['label'] ?? '');
-            $sourcePattern = ltrim((string)($fileConfig['source'] ?? ''), '/');
-            $targetPattern = (string)($fileConfig['target'] ?? '');
-            $resolver = ($fileConfig['resolver'] ?? '');
-            $resolver = $resolver !== '' ? $resolver : 'default';
-            $resolver = $this->getPathResolversForAlias($resolver, $pathResolvers);
-            if ($sourcePattern === '') {
+        foreach ($filesConfig as $fileConfigItem) {
+            $fileConfig = FileConfig::fromArray($fileConfigItem, $pathResolvers);
+            if ($fileConfig->source() === '') {
                 $io->writeError('<highlight>> ComposerFilesProvider:</highlight> No source pattern set for file config: ' . \json_encode($fileConfig), true);
                 continue;
             }
-            if ($targetPattern === '') {
+            if ($fileConfig->target() === '') {
                 $io->writeError('<highlight>> ComposerFilesProvider:</highlight> No target pattern set for file config: ' . \json_encode($fileConfig), true);
                 continue;
             }
-            if (!($resolver instanceof PathResolver)) {
+            if ($fileConfig->resolver() === null) {
                 $io->writeError('<highlight>> ComposerFilesProvider:</highlight> Could not find resolver for file config: ' . \json_encode($fileConfig), true);
                 continue;
             }
-            if ($label === '') {
-                $label = '"' . $sourcePattern . '"';
-            }
-            $fileHandlers[] = new FileProvideHandler(
-                $label,
-                $sourcePattern,
-                $targetPattern,
-                $resolver
-            );
+            $fileHandlers[] = new FileProvideHandler($fileConfig);
         }
 
         return $fileHandlers;

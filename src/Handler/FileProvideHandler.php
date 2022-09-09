@@ -16,46 +16,33 @@ declare(strict_types=1);
 namespace SBUERK\ComposerFilesProvider\Handler;
 
 use Composer\Util\Filesystem;
-use SBUERK\ComposerFilesProvider\Resolver\PathResolver;
+use SBUERK\ComposerFilesProvider\Config\FileConfig;
 use SBUERK\ComposerFilesProvider\Task\TaskStack;
 
 class FileProvideHandler
 {
-    /** @var string */
-    protected $label = '';
-
     /**
-     * @var string
+     * @var FileConfig
      */
-    protected $source = '';
-
-    /**
-     * @var string
-     */
-    protected $target = '';
-
-    /**
-     * @var PathResolver
-     */
-    protected $pathResolver;
+    protected $fileConfig;
 
     /**
      * @var Filesystem
      */
     protected $filesystem;
 
-    public function __construct(string $label, string $source, string $target, PathResolver $pathResolver)
+    public function __construct(FileConfig $fileConfig)
     {
-        $this->label = $label;
-        $this->source = $source;
-        $this->target = $target;
-        $this->pathResolver = $pathResolver;
+        $this->fileConfig = $fileConfig;
         $this->filesystem = new Filesystem();
     }
 
     public function match(TaskStack $fileProviderTaskStack): void
     {
-        $resolvedPatterns = $this->pathResolver->getResolvedPatterns($this->source);
+        if ($this->fileConfig->resolver() === null) {
+            return;
+        }
+        $resolvedPatterns = $this->fileConfig->resolver()->getResolvedPatterns($this->fileConfig->source());
         foreach ($resolvedPatterns as $pattern => $resolvedPattern) {
             // first hit wins
             $resolvedPattern = $this->filesystem->normalizePath($resolvedPattern);
@@ -63,7 +50,7 @@ class FileProvideHandler
                 $fileProviderTaskStack->add(
                     $this,
                     $resolvedPattern,
-                    $this->filesystem->normalizePath($this->pathResolver->patternReplacer()->replace($this->source, $this->target)),
+                    $this->filesystem->normalizePath($this->fileConfig->resolver()->patternReplacer()->replace($this->fileConfig->source(), $this->fileConfig->target())),
                     true,
                     TaskStack::TYPE_FILE
                 );
@@ -75,7 +62,7 @@ class FileProvideHandler
         $fileProviderTaskStack->add(
             $this,
             '',
-            $this->filesystem->normalizePath($this->pathResolver->patternReplacer()->replace($this->source, $this->target)),
+            $this->filesystem->normalizePath($this->fileConfig->resolver()->patternReplacer()->replace($this->fileConfig->source(), $this->fileConfig->target())),
             false,
             TaskStack::TYPE_FILE
         );
@@ -83,6 +70,6 @@ class FileProvideHandler
 
     public function label(): string
     {
-        return $this->label;
+        return $this->fileConfig->label();
     }
 }
