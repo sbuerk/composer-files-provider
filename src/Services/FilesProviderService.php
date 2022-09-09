@@ -20,6 +20,7 @@ use Composer\Config;
 use Composer\IO\IOInterface;
 use Composer\Util\Filesystem;
 use SBUERK\ComposerFilesProvider\Config\FileConfig;
+use SBUERK\ComposerFilesProvider\Config\ResolverConfig;
 use SBUERK\ComposerFilesProvider\Handler\FileProvideHandler;
 use SBUERK\ComposerFilesProvider\Replacer\PatternReplacer;
 use SBUERK\ComposerFilesProvider\Resolver\PathResolver;
@@ -160,11 +161,15 @@ class FilesProviderService
                 $io->writeError('<highlight>> ComposerFilesProvider:</highlight> Invalid or empty path pattern provided for files-provider resolver <comment>' . $alias . '</comment> configuration.', true);
                 continue;
             }
-            $pathResolversByAlias[$alias] = new PathResolver(
-                $alias,
-                $resolverPathPatterns,
-                $patternReplacer
-            );
+            $resolverPathPatterns = array_filter($resolverPathPatterns, function ($value, $key) {
+                return is_string($value) && $value !== '';
+            }, ARRAY_FILTER_USE_BOTH);
+            if ($resolverPathPatterns === []) {
+                $io->writeError('<highlight>> ComposerFilesProvider:</highlight> Invalid or empty path pattern provided for files-provider resolver <comment>' . $alias . '</comment> configuration.', true);
+                continue;
+            }
+            $resolverConfig = ResolverConfig::fromArray(['alias' => $alias, 'pattern' => $resolverPathPatterns]);
+            $pathResolversByAlias[$alias] = new PathResolver($resolverConfig, $patternReplacer);
         }
         return $pathResolversByAlias;
     }
@@ -249,7 +254,7 @@ class FilesProviderService
     }
 
     /**
-     * @return string[]
+     * @return non-empty-string[]
      */
     public static function getDefaultResolverPaths(): array
     {

@@ -15,14 +15,15 @@ declare(strict_types=1);
 
 namespace SBUERK\ComposerFilesProvider\Resolver;
 
+use SBUERK\ComposerFilesProvider\Config\ResolverConfig;
 use SBUERK\ComposerFilesProvider\Replacer\PatternReplacer;
 
 class PathResolver
 {
     /**
-     * @var string
+     * @var ResolverConfig
      */
-    protected $alias = '';
+    protected $resolverConfig;
 
     /**
      * @var \SBUERK\ComposerFilesProvider\Replacer\PatternReplacer
@@ -30,25 +31,13 @@ class PathResolver
     protected $patternReplacer;
 
     /**
-     * @var array<int, string>
-     */
-    protected $patterns = [];
-
-    /**
-     * @param string $alias
-     * @param array<int, string> $patterns
+     * @param ResolverConfig $resolverConfig
      * @param PatternReplacer $patternReplacer
      */
-    public function __construct(string $alias, array $patterns, PatternReplacer $patternReplacer)
+    public function __construct(ResolverConfig $resolverConfig, PatternReplacer $patternReplacer)
     {
+        $this->resolverConfig = $resolverConfig;
         $this->patternReplacer = $patternReplacer;
-        $this->alias = $alias;
-        foreach ($patterns as $pattern) {
-            if ($pattern === '') {
-                continue;
-            }
-            $this->patterns[] = $pattern;
-        }
     }
 
     /**
@@ -58,7 +47,7 @@ class PathResolver
     public function getResolvedPatterns(string $source): array
     {
         $return = [];
-        foreach ($this->patterns as $pattern) {
+        foreach ($this->resolverConfig->pattern() as $pattern) {
             $return[$pattern] = $this->patternReplacer->replace($pattern, $source);
         }
         return $return;

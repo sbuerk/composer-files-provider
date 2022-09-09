@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace SBUERK\ComposerFilesProvider\Tests\Unit\Resolver;
 
+use SBUERK\ComposerFilesProvider\Config\ResolverConfig;
 use SBUERK\ComposerFilesProvider\Resolver\PathResolver;
 use SBUERK\ComposerFilesProvider\Tests\Unit\TestCase;
 
@@ -96,15 +97,14 @@ class PathResolverTest extends TestCase
 
     /**
      * @param string $alias
-     * @param array<int, string> $patterns
+     * @param non-empty-string[] $patterns
      * @param bool $isDDEV
      * @return PathResolver
      */
     protected function createPathResolver(string $alias, array $patterns, bool $isDDEV): PathResolver
     {
         return new PathResolver(
-            $alias !== '' ? $alias : 'default',
-            $patterns,
+            ResolverConfig::fromArray(['alias' => ($alias !== '' ? $alias : 'default'), 'pattern' => $patterns]),
             $this->createPatternReplacer('/fictive-path/project-parent/project-path/', 'test-templates/', $isDDEV)
         );
     }

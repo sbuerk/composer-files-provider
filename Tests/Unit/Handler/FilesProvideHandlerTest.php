@@ -17,6 +17,7 @@ namespace SBUERK\ComposerFilesProvider\Tests\Unit\Handler;
 
 use Composer\Util\Filesystem;
 use SBUERK\ComposerFilesProvider\Config\FileConfig;
+use SBUERK\ComposerFilesProvider\Config\ResolverConfig;
 use SBUERK\ComposerFilesProvider\Handler\FileProvideHandler;
 use SBUERK\ComposerFilesProvider\Resolver\PathResolver;
 use SBUERK\ComposerFilesProvider\Services\FilesProviderService;
@@ -367,8 +368,7 @@ class FilesProvideHandlerTest extends TestCase
     protected function createPathResolver(string $alias, bool $isDDEV): PathResolver
     {
         return new PathResolver(
-            $alias !== '' ? $alias : 'default',
-            FilesProviderService::getDefaultResolverPaths(),
+            ResolverConfig::fromArray(['alias' => ($alias !== '' ? $alias : 'default'), 'pattern' => FilesProviderService::getDefaultResolverPaths()]),
             $this->createPatternReplacer($this->sourcePath, 'test-templates/', $isDDEV)
         );
     }
