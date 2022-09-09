@@ -212,8 +212,8 @@ which displays something like that:
 
 # Tagging & Releasing
 
-[packagist.org](https://packagist.org/packages/sbuerk/composer-files-provider) is enabled via the casual github hook.
-For now, no github releases are planed to be created. 
+[packagist.org](https://packagist.org/packages/sbuerk/composer-files-provider) is enabled via the casual GitHub hook.
+For now, no GitHub releases are planed to be created. 
 
 ```shell
 # ensure everything is committed and pushed
