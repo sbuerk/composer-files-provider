@@ -18,12 +18,13 @@ namespace SBUERK\ComposerFilesProvider\Plugin;
 use Composer\Composer;
 use Composer\EventDispatcher\EventSubscriberInterface;
 use Composer\IO\IOInterface;
+use Composer\Plugin\Capable;
 use Composer\Plugin\PluginInterface;
 use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
 use SBUERK\ComposerFilesProvider\Services\FilesProviderService;
 
-class FilesProvider implements PluginInterface, EventSubscriberInterface
+class FilesProvider implements PluginInterface, EventSubscriberInterface, Capable
 {
     /**
      * @var array<string, bool>
@@ -76,6 +77,16 @@ class FilesProvider implements PluginInterface, EventSubscriberInterface
             // We need autoload dump to ensure files gets provided on first plugin installation. This can be
             // changed if composer 2.1+ support only is etablished
             ScriptEvents::PRE_AUTOLOAD_DUMP => ['listen', 50],
+        ];
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function getCapabilities()
+    {
+        return [
+            'Composer\Plugin\Capability\CommandProvider' => 'SBUERK\ComposerFilesProvider\Provider\CommandProvider',
         ];
     }
 }
