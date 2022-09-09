@@ -110,8 +110,9 @@ class FilesProviderService
                 $io->write('', true);
             }
             foreach ($resolvedPatterns as $pattern => $resolvedPattern) {
+                $resolvedPattern = $this->filesystem->normalizePath($resolvedPattern);
                 $matched = $fileHandler->matchPattern($pattern, $resolvedPattern);
-                $io->write('    <comment>' . $pattern . '</comment> : ' . ($matched ? '<info>matched</info>' : '<highlight>not-matched</highlight>'), true);
+                $io->write('    <comment>' . $pattern . '</comment> => ' . ($matched ? '<info>' . $resolvedPattern . '</info>' : '<highlight>' . $resolvedPattern . '</highlight>') . ' : ' . ($matched ? '<info>matched</info>' : '<highlight>not-matched</highlight>'), true);
             }
             $io->write('', true);
         }
