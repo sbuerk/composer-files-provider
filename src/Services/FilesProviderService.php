@@ -39,7 +39,7 @@ class FilesProviderService
     {
         $taskStack = $this->buildTaskStack($composer, $io);
         if ($taskStack->count() === 0) {
-            $io->write('> ComposerFilesProvider - nothing to do.', true);
+            $io->write('> ComposerFilesProvider: <info>nothing to do</info>', true);
             return;
         }
         $this->processTaskStack($composer, $io, $taskStack);
@@ -54,20 +54,20 @@ class FilesProviderService
                 $resolvedTarget = $item['target'];
                 $matched = $item['matched'];
                 if (!$matched) {
-                    $io->write(sprintf('> ComposerFilesProvider "%s" nothing to do', $fileProvideHandler->label()));
+                    $io->write(sprintf('> ComposerFilesProvider "<info>%s</info>" <info>nothing to do</info>', $fileProvideHandler->label()));
                     continue;
                 }
                 if (!file_exists($resolvedSource)) {
-                    $io->writeError(sprintf('> ComposerFilesProvider "%s" error: source does not exists: %s', $fileProvideHandler->label(), $resolvedSource));
+                    $io->writeError(sprintf('> ComposerFilesProvider "<info>%s</info>" error: source does not exists: <highlight>%s</highlight>', $fileProvideHandler->label(), $resolvedSource));
                     continue;
                 }
                 $this->ensureTargetFolder($resolvedTarget);
                 if (!$this->filesystem->copy($resolvedSource, $resolvedTarget)) {
-                    $io->writeError(sprintf('> ComposerFilesProvider "%s" error: could not copy "%s" to "%s"', $fileProvideHandler->label(), $resolvedSource, $resolvedTarget));
+                    $io->writeError(sprintf('> ComposerFilesProvider "<info>%s</info>" error: could not copy "<info>%s</info>" to "<highlight>%s</highlight>"', $fileProvideHandler->label(), $resolvedSource, $resolvedTarget));
                     continue;
                 }
 
-                $io->write(sprintf('> ComposerFilesProvider "%s" copied "%s" to "%s"', $fileProvideHandler->label(), $resolvedSource, $resolvedTarget));
+                $io->write(sprintf('> ComposerFilesProvider "<info>%s</info>" copied "<info>%s</info>" to "<info>%s</info>"', $fileProvideHandler->label(), $resolvedSource, $resolvedTarget));
             }
         }
     }
@@ -115,15 +115,15 @@ class FilesProviderService
             $resolver = $resolver !== '' ? $resolver : 'default';
             $resolver = $this->getPathResolversForAlias($resolver, $pathResolvers);
             if ($sourcePattern === '') {
-                $io->writeError('> ComposerFilesProvider: No source pattern set for file config: ' . \json_encode($fileConfig), true);
+                $io->writeError('<highlight>> ComposerFilesProvider:</highlight> No source pattern set for file config: ' . \json_encode($fileConfig), true);
                 continue;
             }
             if ($targetPattern === '') {
-                $io->writeError('> ComposerFilesProvider: No target pattern set for file config: ' . \json_encode($fileConfig), true);
+                $io->writeError('<highlight>> ComposerFilesProvider:</highlight> No target pattern set for file config: ' . \json_encode($fileConfig), true);
                 continue;
             }
             if (!($resolver instanceof PathResolver)) {
-                $io->writeError('> ComposerFilesProvider: Could not find resolver for file config: ' . \json_encode($fileConfig), true);
+                $io->writeError('<highlight>> ComposerFilesProvider:</highlight> Could not find resolver for file config: ' . \json_encode($fileConfig), true);
                 continue;
             }
             if ($label === '') {
@@ -163,12 +163,12 @@ class FilesProviderService
         $pathResolversByAlias = [];
         $patternReplacer = $this->getPatternReplacer($composer);
         foreach ($this->getResolversConfig($composer) as $alias => $resolverPathPatterns) {
-            if ($alias === '') {
-                $io->writeError('> ComposerFilesProvider: Invalid alias provided for files-provider resolver configuration: ' . $alias, true);
+            if (!is_string($alias) || $alias === '') {
+                $io->writeError('<highlight>> ComposerFilesProvider:</highlight> Invalid alias provided for files-provider resolver configuration: <comment>' . $alias . '</comment>', true);
                 continue;
             }
-            if ($resolverPathPatterns === []) {
-                $io->writeError('> ComposerFilesProvider: Invalid or empty path pattern provided for files-provider resolver ' . $alias . ' configuration.', true);
+            if (!is_array($resolverPathPatterns) || $resolverPathPatterns === []) {
+                $io->writeError('<highlight>> ComposerFilesProvider:</highlight> Invalid or empty path pattern provided for files-provider resolver <comment>' . $alias . '</comment> configuration.', true);
                 continue;
             }
             $pathResolversByAlias[$alias] = new PathResolver(
@@ -194,19 +194,23 @@ class FilesProviderService
 
     /**
      * @param Composer $composer
-     * @return array<string, array<int, string>>
+     * @return array<int|string, mixed>
      */
     protected function getResolversConfig(Composer $composer): array
     {
-        /** @var array<string, array<int, string>> $resolverConfig */
         $resolverConfig = $this->getFilesProviderExtraConfig($composer)['resolvers'] ?? [];
+        if (!is_array($resolverConfig)) {
+            $resolverConfig = [];
+        }
         return $resolverConfig;
     }
 
     protected function getTemplateRootFolder(Composer $composer): string
     {
-        /** @var string $templateRoot */
-        $templateRoot = $this->getFilesProviderExtraConfig($composer)['template-root'] ?? 'file-templates';
+        $templateRoot = ($this->getFilesProviderExtraConfig($composer)['template-root'] ?? 'file-templates');
+        if (!is_string($templateRoot)) {
+            $templateRoot = 'file-templates';
+        }
         return $templateRoot;
     }
 
