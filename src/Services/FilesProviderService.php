@@ -105,9 +105,13 @@ class FilesProviderService
                 $fileHandler->source(),
                 $fileHandler->target()
             ));
-            foreach ($fileHandler->resolvedPatterns() as $pattern => $resolvedPattern) {
+            $resolvedPatterns = $fileHandler->resolvedPatterns();
+            if ($resolvedPatterns !== []) {
+                $io->write('', true);
+            }
+            foreach ($resolvedPatterns as $pattern => $resolvedPattern) {
                 $matched = $fileHandler->matchPattern($pattern, $resolvedPattern);
-                $io->write('    ' . $pattern . ($matched ? '<info>matched</info>' : '<highlighted>not-matched</highlighted>'), true);
+                $io->write('    <comment>' . $pattern . '</comment> : ' . ($matched ? '<info>matched</info>' : '<highlight>not-matched</highlight>'), true);
             }
             $io->write('', true);
         }
