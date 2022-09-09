@@ -14,9 +14,68 @@ section of the root `composer.json`. See section `options` for available options
 
 @todo
 
+## Installation
+
+Simply add this package as a dependency:
+
+```shell
+$ composer require sbuerk/composer-files-provider
+```
+
+The plugin starts working directly. That means, if you have already provided the needed
+configuration it will processed directly. See the Info Command section to get more info
+about the current configuration and what may be matched or not.
+
 ## Options
 
-@todo
+Example configuration:
+
+```json
+{
+  "extra": {
+    "sbuerk/composer-files-provider": {
+      "template-root": "files-provider/",
+      "resolvers": {
+        "custom": [
+          "%t%/%h%/%u%/%p%/%s",
+          "%t%/%h%/%p%/%s",
+          "%t%/%u%/%s",
+          "%t%/%p%/%s",
+          "%t%/default/%s"
+        ]
+      },
+      "files": [
+        {
+          "label": "env based logo file",
+          "source": "images/logo.png",
+          "target": "images/logo.png",
+          "resolver": "custom"
+        },
+        {
+          "label": ".htaccess",
+          "source": "public/.htaccess",
+          "target": "public/.htaccess"
+        }
+      ]
+    }
+  }
+}
+```
+
+@todo Add detailed information about the configuration structur and possiblities.
+
+## Info command
+
+This package extends composer with a command to get some insights in the configuration
+and what may happen:
+
+```shell
+$ composer 
+```
+
+which displays something like that:
+
+![](Documentation/cli-info-example.png)
 
 ## Available Placeholders
 
