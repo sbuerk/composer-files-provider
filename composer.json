@@ -1,6 +1,6 @@
 {
     "name": "sbuerk/composer-files-provider",
-    "description": "Copies template files and provide them installation aware",
+    "description": "Provide files from a stack based on resolver patterns",
     "type": "composer-plugin",
     "homepage": "https://github.com/sbuerk/composer-files-provider",
     "license": "GPL-2.0-or-later",
