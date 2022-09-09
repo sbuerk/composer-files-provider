@@ -17,7 +17,7 @@ namespace SBUERK\ComposerFilesProvider\Replacer;
 
 class PatternReplacer
 {
-    const PATTERN_LONG_DDEV = '%DDEV%';
+    const PATTERN_LONG_DDEV = '%ddev%';
 
     const PATTERN_SHORT_PROJECT_FOLDER = '%p%';
     const PATTERN_SHORT_PROJECT_PARENT_FOLDER = '%pp%';

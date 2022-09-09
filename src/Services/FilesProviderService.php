@@ -63,7 +63,7 @@ class FilesProviderService
             '%u%' => '  Username..........: [<info>%%u%%</info>] <comment>%s</comment>',
             '%p%' => '  ProjectFolder.....: [<info>%%p%%</info>] <comment>%s</comment>',
             '%pp%' => '  ProjectParentFolder: [<info>%%pp%%</info>] <comment>%s</comment>',
-            '%DDEV%' => '  DDEV...............: [<info>%%DDEV%%</info>] <comment>%s</comment>',
+            '%ddev%' => '  DDEV...............: [<info>%%ddev%%</info>] <comment>%s</comment>',
         ];
         $io->write('<comment>> ComposerFilesProvider - placeholders</comment>', true);
         foreach ($placeholders as $placeholder => $message) {
@@ -322,7 +322,7 @@ class FilesProviderService
             '%t%/%u%/%s%',
             '%t%/%pp%/%p%/%s%',
             '%t%/%p%/%s%',
-            '%t%/%DDEV%/%s%',
+            '%t%/%ddev%/%s%',
             '%t%/default/%s%',
         ];
     }

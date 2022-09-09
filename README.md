@@ -28,7 +28,7 @@ section of the root `composer.json`. See section `options` for available options
 | %u%    | This will be replaced with the username                                 |
 | %p%    | This will be replaced with the project folder name                      |
 | %pp%   | This will be replaced with the parent folder name of the project folder |
-| %DDEV% | If processed in DDEV container, this will be replaced with "ddev"       |
+| %ddev% | If processed in DDEV container, this will be replaced with "ddev"       |
 
 ## Feedback / Bug reports / Contribution
 

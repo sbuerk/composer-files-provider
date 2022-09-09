@@ -90,7 +90,7 @@ class PathResolverTest extends TestCase
             '%t%/%u%/%s%' => implode('/', [$template, $username, $source]),
             '%t%/%pp%/%p%/%s%' => implode('/', [$template, $projectParentFolder, $projectFolder, $source]),
             '%t%/%p%/%s%' => implode('/', [$template, $projectFolder, $source]),
-            '%t%/%DDEV%/%s%' => implode('/', [$template, $ddev, $source]),
+            '%t%/%ddev%/%s%' => implode('/', [$template, $ddev, $source]),
             '%t%/default/%s%' => implode('/', [$template, 'default', $source]),
         ];
     }
