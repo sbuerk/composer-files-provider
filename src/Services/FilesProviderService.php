@@ -101,12 +101,16 @@ class FilesProviderService
                 '  - <comment>%s</comment> using resolver <comment>%s</comment>%s: <info>%s</info> => <comment>%s</comment>',
                 $fileHandler->label(),
                 $fileHandler->resolverName(),
-                ($fileHandler->resolverName() !== $fileHandler->usedResolverName() ? '[<warning>' . $fileHandler->usedResolverName() . '</warning>' : ''),
+                ($fileHandler->resolverName() !== $fileHandler->usedResolverName() ? '[using: <warning>' . $fileHandler->usedResolverName() . '</warning>]' : ''),
                 $fileHandler->source(),
                 $fileHandler->target()
             ));
+            foreach ($fileHandler->resolvedPatterns() as $pattern => $resolvedPattern) {
+                $matched = $fileHandler->matchPattern($pattern, $resolvedPattern);
+                $io->write('    ' . $pattern . ($matched ? '<info>matched</info>' : '<highlighted>not-matched</highlighted>'), true);
+            }
+            $io->write('', true);
         }
-        $io->write('', true);
         $io->write('', true);
     }
 

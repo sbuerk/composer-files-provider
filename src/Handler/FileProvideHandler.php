@@ -46,7 +46,7 @@ class FileProvideHandler
         foreach ($resolvedPatterns as $pattern => $resolvedPattern) {
             // first hit wins
             $resolvedPattern = $this->filesystem->normalizePath($resolvedPattern);
-            if (file_exists($resolvedPattern)) {
+            if ($this->matchPattern($pattern, $resolvedPattern)) {
                 $fileProviderTaskStack->add(
                     $this,
                     $resolvedPattern,
@@ -66,6 +66,23 @@ class FileProvideHandler
             false,
             TaskStack::TYPE_FILE
         );
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function resolvedPatterns(): array
+    {
+        if ($this->fileConfig->resolver() === null) {
+            return [];
+        }
+        return $this->fileConfig->resolver()->getResolvedPatterns($this->fileConfig->source());
+    }
+
+    public function matchPattern(string $pattern, string $resolvedPattern): bool
+    {
+        $resolvedPattern = $this->filesystem->normalizePath($resolvedPattern);
+        return file_exists($resolvedPattern);
     }
 
     public function label(): string
