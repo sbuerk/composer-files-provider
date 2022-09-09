@@ -184,6 +184,7 @@ Default resolver definition (if not overridden):
 | resolver | yes      | Define which resolver should be used. If not available or not provided, `default` resolver will be used.          |
 
 > :information_source: Resolver fallback / default use means, that it uses the shipped default stack, except default resolver has been overridden.
+ 
 > :warning: **Don't commit file with sensitive data (credentials) to your repository**: Be very careful here! So do not use this to provide these kind of files out of your repository.
 
 # Info command
