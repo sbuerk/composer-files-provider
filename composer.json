@@ -73,6 +73,9 @@
         "ci:php:lint": "Lint php files"
     },
     "extra": {
-        "class": "SBUERK\\ComposerFilesProvider\\Plugin\\FilesProvider"
+        "class": "SBUERK\\ComposerFilesProvider\\Plugin\\FilesProvider",
+        "branch-alias": {
+            "dev-main": "1.0.x-dev"
+        }
     }
 }
