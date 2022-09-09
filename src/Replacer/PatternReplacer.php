@@ -133,7 +133,7 @@ class PatternReplacer
         $projectParentFolder = $this->getProjectParentFolder();
         $userName = $this->getUserName();
         $hostName = $this->getHostName();
-        $ddev = $this->isDDEV() ? 'ddev' : 'not-ddev-should-not-be-used';
+        $ddev = $this->isDDEV() ? 'ddev' : 'not-ddev';
         $source = ltrim($source, '/');
 
         return [

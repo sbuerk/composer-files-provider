@@ -72,7 +72,7 @@ class PathResolverTest extends TestCase
     {
         $template = 'test-templates';
         $hostname = 'fake.host.test';
-        $ddev = $isDDEV ? 'ddev' : 'not-ddev-should-not-be-used';
+        $ddev = $isDDEV ? 'ddev' : 'not-ddev';
         $username = 'fake-user';
         $projectFolder = 'project-path';
         $projectParentFolder = 'project-parent';
