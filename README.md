@@ -75,7 +75,7 @@ $ composer
 
 which displays something like that:
 
-![](Documentation/cli-info-example.png)
+![](Documentation/cli-info-command-example.png)
 
 ## Available Placeholders
 
