@@ -67,7 +67,7 @@ class PatternReplacer
 
     protected function determineIsDDEV(): bool
     {
-        return (bool)getenv('IS_DDEV');
+        return filter_var(getenv('IS_DDEV_PROJECT'), FILTER_VALIDATE_BOOLEAN) === true;
     }
 
     protected function determineUserName(): string
