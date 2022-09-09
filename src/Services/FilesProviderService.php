@@ -59,13 +59,14 @@ class FilesProviderService
     {
         $patternReplacer = $this->getPatternReplacer($composer);
         $placeholders = [
-            '%h%' => '  Hostname..........: [<info>%%h%%</info>] <comment>%s</comment>',
-            '%u%' => '  Username..........: [<info>%%u%%</info>] <comment>%s</comment>',
-            '%p%' => '  ProjectFolder.....: [<info>%%p%%</info>] <comment>%s</comment>',
-            '%pp%' => '  ProjectParentFolder: [<info>%%pp%%</info>] <comment>%s</comment>',
+            '%h%' => '  Hostname...........: [<info>%%h%%</info>   ] <comment>%s</comment>',
+            '%u%' => '  Username...........: [<info>%%u%%</info>   ] <comment>%s</comment>',
+            '%p%' => '  ProjectFolder......: [<info>%%p%%</info>   ] <comment>%s</comment>',
+            '%pp%' => '  ProjectParentFolder: [<info>%%pp%%</info>  ] <comment>%s</comment>',
             '%ddev%' => '  DDEV...............: [<info>%%ddev%%</info>] <comment>%s</comment>',
         ];
         $io->write('<comment>> ComposerFilesProvider - placeholders</comment>', true);
+        $io->write('', true);
         foreach ($placeholders as $placeholder => $message) {
             $io->write(sprintf($message, $patternReplacer->replace($placeholder, 'fake-source')), true);
         }
@@ -78,13 +79,14 @@ class FilesProviderService
         $resolvers = $this->getPathResolvers($composer, $io);
 
         $io->write('<comment>> ComposerFilesProvider - registered resolver configurations</comment>', true);
-        foreach ($resolvers as $resolver) {
-            $io->write(sprintf('  - %s', $resolver->alias()), true);
-            foreach ($resolver->getResolvedPatterns('<FILE-SOURCE-PATH>') as $pattern => $resolvedPattern) {
-                $io->write('    <comment>' . $pattern . '</comment> => <info>' . $resolvedPattern . '</info>', true);
-            }
-        }
         $io->write('', true);
+        foreach ($resolvers as $resolver) {
+            $io->write(sprintf('  - Resolver: <info>%s</info>', $resolver->alias()), true);
+            foreach ($resolver->getResolvedPatterns('<FILE-SOURCE-PATH>') as $pattern => $resolvedPattern) {
+                $io->write('      <comment>' . $pattern . '</comment> => <info>' . $resolvedPattern . '</info>', true);
+            }
+            $io->write('', true);
+        }
         $io->write('', true);
     }
 
@@ -93,8 +95,16 @@ class FilesProviderService
         $fileHandlers = $this->getFileHandlers($composer, $io);
 
         $io->write('<comment>> ComposerFilesProvider - registered file configurations</comment>', true);
+        $io->write('', true);
         foreach ($fileHandlers as $fileHandler) {
-            $io->write(sprintf('  - <comment>%s</comment> using resolver <comment>%s</comment>: <info>%s</info> => <comment>%s</comment>', $fileHandler->label(), $fileHandler->resolverName(), $fileHandler->source(), $fileHandler->target()));
+            $io->write(sprintf(
+                '  - <comment>%s</comment> using resolver <comment>%s</comment>%s: <info>%s</info> => <comment>%s</comment>',
+                $fileHandler->label(),
+                $fileHandler->resolverName(),
+                ($fileHandler->resolverName() !== $fileHandler->usedResolverName() ? '[<warning>' . $fileHandler->usedResolverName() . '</warning>' : ''),
+                $fileHandler->source(),
+                $fileHandler->target()
+            ));
         }
         $io->write('', true);
         $io->write('', true);

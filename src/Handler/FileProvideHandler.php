@@ -87,4 +87,10 @@ class FileProvideHandler
     {
         return $this->fileConfig->resolverName();
     }
+
+    public function usedResolverName(): string
+    {
+        $resolver = $this->fileConfig->resolver();
+        return $resolver !== null ? $resolver->alias() : '';
+    }
 }
