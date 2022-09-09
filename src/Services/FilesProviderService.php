@@ -48,6 +48,58 @@ class FilesProviderService
         $this->processTaskStack($composer, $io, $taskStack);
     }
 
+    public function info(Composer $composer, IOInterface $io): void
+    {
+        $this->displayPlaceholderInfo($composer, $io);
+        $this->displayResolverConfiguration($composer, $io);
+        $this->displayFilesInfo($composer, $io);
+    }
+
+    protected function displayPlaceholderInfo(Composer $composer, IOInterface $io): void
+    {
+        $patternReplacer = $this->getPatternReplacer($composer);
+        $placeholders = [
+            '%h%' => '  Hostname..........: [<info>%%h%%</info>] <comment>%s</comment>',
+            '%u%' => '  Username..........: [<info>%%u%%</info>] <comment>%s</comment>',
+            '%p%' => '  ProjectFolder.....: [<info>%%p%%</info>] <comment>%s</comment>',
+            '%pp%' => '  ProjectParentFolder: [<info>%%pp%%</info>] <comment>%s</comment>',
+            '%DDEV%' => '  DDEV...............: [<info>%%DDEV%%</info>] <comment>%s</comment>',
+        ];
+        $io->write('<comment>> ComposerFilesProvider - placeholders</comment>', true);
+        foreach ($placeholders as $placeholder => $message) {
+            $io->write(sprintf($message, $patternReplacer->replace($placeholder, 'fake-source')), true);
+        }
+        $io->write('', true);
+        $io->write('', true);
+    }
+
+    protected function displayResolverConfiguration(Composer $composer, IOInterface $io): void
+    {
+        $resolvers = $this->getPathResolvers($composer, $io);
+
+        $io->write('<comment>> ComposerFilesProvider - registered resolver configurations</comment>', true);
+        foreach ($resolvers as $resolver) {
+            $io->write(sprintf('  - %s', $resolver->alias()), true);
+            foreach ($resolver->getResolvedPatterns('<FILE-SOURCE-PATH>') as $pattern => $resolvedPattern) {
+                $io->write('    <comment>' . $pattern . '</comment> => <info>' . $resolvedPattern . '</info>', true);
+            }
+        }
+        $io->write('', true);
+        $io->write('', true);
+    }
+
+    protected function displayFilesInfo(Composer $composer, IOInterface $io): void
+    {
+        $fileHandlers = $this->getFileHandlers($composer, $io);
+
+        $io->write('<comment>> ComposerFilesProvider - registered file configurations</comment>', true);
+        foreach ($fileHandlers as $fileHandler) {
+            $io->write(sprintf('  - <comment>%s</comment> using resolver <comment>%s</comment>: <info>%s</info> => <comment>%s</comment>', $fileHandler->label(), $fileHandler->resolverName(), $fileHandler->source(), $fileHandler->target()));
+        }
+        $io->write('', true);
+        $io->write('', true);
+    }
+
     protected function processTaskStack(Composer $composer, IOInterface $io, TaskStack $taskStack): void
     {
         foreach ($taskStack->items() as $alias => $items) {

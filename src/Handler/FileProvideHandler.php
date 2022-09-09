@@ -72,4 +72,19 @@ class FileProvideHandler
     {
         return $this->fileConfig->label();
     }
+
+    public function source(): string
+    {
+        return $this->fileConfig->source();
+    }
+
+    public function target(): string
+    {
+        return $this->fileConfig->target();
+    }
+
+    public function resolverName(): string
+    {
+        return $this->fileConfig->resolverName();
+    }
 }

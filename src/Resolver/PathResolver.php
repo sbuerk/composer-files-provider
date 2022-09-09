@@ -57,4 +57,17 @@ class PathResolver
     {
         return $this->patternReplacer;
     }
+
+    public function alias(): string
+    {
+        return $this->resolverConfig->alias();
+    }
+
+    /**
+     * @return string[]
+     */
+    public function patterns(): array
+    {
+        return $this->resolverConfig->pattern();
+    }
 }

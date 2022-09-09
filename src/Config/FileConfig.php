@@ -89,6 +89,11 @@ final class FileConfig implements \JsonSerializable
         return $this->getPathResolversForAlias($this->resolver, $this->pathResolvers);
     }
 
+    public function resolverName(): string
+    {
+        return $this->resolver;
+    }
+
     /**
      * @param string $alias
      * @param array<non-empty-string,PathResolver>$pathResolvers
