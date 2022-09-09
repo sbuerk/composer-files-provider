@@ -16,6 +16,7 @@ declare(strict_types=1);
 namespace SBUERK\ComposerFilesProvider\Services;
 
 use Composer\Composer;
+use Composer\Config;
 use Composer\IO\IOInterface;
 use Composer\Util\Filesystem;
 use SBUERK\ComposerFilesProvider\Handler\FileProvideHandler;
@@ -247,7 +248,16 @@ class FilesProviderService
 
     protected function getProjectRootPath(Composer $composer): string
     {
-        return rtrim($composer->getInstallationManager()->getInstallPath($composer->getPackage()), '/');
+        return rtrim($this->extractBaseDir($composer->getConfig()), '/');
+    }
+
+    protected function extractBaseDir(Config $config): string
+    {
+        $reflectionClass = new \ReflectionClass($config);
+        $reflectionProperty = $reflectionClass->getProperty('baseDir');
+        $reflectionProperty->setAccessible(true);
+        $value = $reflectionProperty->getValue($config);
+        return is_string($value) ? $value : '';
     }
 
     /**
