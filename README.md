@@ -218,8 +218,10 @@ which displays something like that:
 For now, no GitHub releases are planed to be created. 
 
 ```shell
-# ensure everything is committed and pushed
+# Add/Adjust CHANGELOG Entry (needed to create release commit)
+$ git commit -am "[RELEASE] 1.0.9 Ensure configured files target is used for copy destination"
 $ git tag 1.0.9
+$ git push
 $ git push --tags
 ```
 
