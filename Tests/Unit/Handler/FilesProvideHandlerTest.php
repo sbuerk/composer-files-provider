@@ -79,12 +79,18 @@ class FilesProvideHandlerTest extends TestCase
     public function correctSourceFileMatchedDataProvider(): array
     {
         $source = 'sub-path/some-file.txt';
+        $fileHandlerSource = '/sub-path/some-file.txt';
+        $targetSourcePattern = '%s%';
+        $targetWithoutPattern = $source;
         return [
+            // target pattern
             'default pattern #0 matches' => [
                 'files' => [
                     'test-templates/fake.host.test/fake-user/parent-folder/project-folder/' . $source => 'dummy-text',
                 ],
                 'isDDEV' => false,
+                'source' => $source,
+                'target' => $targetSourcePattern,
                 'expectedItems' => [
                     'some-label' => [
                         0 => [
@@ -101,6 +107,8 @@ class FilesProvideHandlerTest extends TestCase
                     'test-templates/fake.host.test/fake-user/project-folder/' . $source => 'dummy-text',
                 ],
                 'isDDEV' => false,
+                'source' => $source,
+                'target' => $targetSourcePattern,
                 'expectedItems' => [
                     'some-label' => [
                         0 => [
@@ -117,6 +125,8 @@ class FilesProvideHandlerTest extends TestCase
                     'test-templates/fake.host.test/fake-user/' . $source => 'dummy-text',
                 ],
                 'isDDEV' => false,
+                'source' => $source,
+                'target' => $targetSourcePattern,
                 'expectedItems' => [
                     'some-label' => [
                         0 => [
@@ -133,6 +143,8 @@ class FilesProvideHandlerTest extends TestCase
                     'test-templates/fake.host.test/parent-folder/project-folder/' . $source => 'dummy-text',
                 ],
                 'isDDEV' => false,
+                'source' => $source,
+                'target' => $targetSourcePattern,
                 'expectedItems' => [
                     'some-label' => [
                         0 => [
@@ -149,6 +161,8 @@ class FilesProvideHandlerTest extends TestCase
                     'test-templates/fake.host.test/project-folder/' . $source => 'dummy-text',
                 ],
                 'isDDEV' => false,
+                'source' => $source,
+                'target' => $targetSourcePattern,
                 'expectedItems' => [
                     'some-label' => [
                         0 => [
@@ -165,6 +179,8 @@ class FilesProvideHandlerTest extends TestCase
                     'test-templates/fake.host.test/' . $source => 'dummy-text',
                 ],
                 'isDDEV' => false,
+                'source' => $source,
+                'target' => $targetSourcePattern,
                 'expectedItems' => [
                     'some-label' => [
                         0 => [
@@ -181,6 +197,8 @@ class FilesProvideHandlerTest extends TestCase
                     'test-templates/fake-user/parent-folder/project-folder/' . $source => 'dummy-text',
                 ],
                 'isDDEV' => false,
+                'source' => $source,
+                'target' => $targetSourcePattern,
                 'expectedItems' => [
                     'some-label' => [
                         0 => [
@@ -197,6 +215,8 @@ class FilesProvideHandlerTest extends TestCase
                     'test-templates/fake-user/project-folder/' . $source => 'dummy-text',
                 ],
                 'isDDEV' => false,
+                'source' => $source,
+                'target' => $targetSourcePattern,
                 'expectedItems' => [
                     'some-label' => [
                         0 => [
@@ -213,6 +233,8 @@ class FilesProvideHandlerTest extends TestCase
                     'test-templates/fake-user/' . $source => 'dummy-text',
                 ],
                 'isDDEV' => false,
+                'source' => $source,
+                'target' => $targetSourcePattern,
                 'expectedItems' => [
                     'some-label' => [
                         0 => [
@@ -229,6 +251,8 @@ class FilesProvideHandlerTest extends TestCase
                     'test-templates/parent-folder/project-folder/' . $source => 'dummy-text',
                 ],
                 'isDDEV' => false,
+                'source' => $source,
+                'target' => $targetSourcePattern,
                 'expectedItems' => [
                     'some-label' => [
                         0 => [
@@ -245,6 +269,8 @@ class FilesProvideHandlerTest extends TestCase
                     'test-templates/project-folder/' . $source => 'dummy-text',
                 ],
                 'isDDEV' => false,
+                'source' => $source,
+                'target' => $targetSourcePattern,
                 'expectedItems' => [
                     'some-label' => [
                         0 => [
@@ -261,6 +287,8 @@ class FilesProvideHandlerTest extends TestCase
                     'test-templates/ddev/' . $source => 'dummy-text',
                 ],
                 'isDDEV' => true,
+                'source' => $source,
+                'target' => $targetSourcePattern,
                 'expectedItems' => [
                     'some-label' => [
                         0 => [
@@ -277,6 +305,8 @@ class FilesProvideHandlerTest extends TestCase
                     'test-templates/default/' . $source => 'dummy-text',
                 ],
                 'isDDEV' => false,
+                'source' => $source,
+                'target' => $targetSourcePattern,
                 'expectedItems' => [
                     'some-label' => [
                         0 => [
@@ -291,6 +321,259 @@ class FilesProvideHandlerTest extends TestCase
             'no matches' => [
                 'files' => [],
                 'isDDEV' => false,
+                'source' => $source,
+                'target' => $targetSourcePattern,
+                'expectedItems' => [
+                    'some-label' => [
+                        0 => [
+                            'type' => TaskStack::TYPE_FILE,
+                            'source' => '',
+                            'target' => ltrim($source, '/'),
+                            'matched' => false,
+                        ],
+                    ],
+                ],
+            ],
+            // target without pattern
+            'default pattern #0 matches without target pattern' => [
+                'files' => [
+                    'test-templates/fake.host.test/fake-user/parent-folder/project-folder/' . $source => 'dummy-text',
+                ],
+                'isDDEV' => false,
+                'source' => $source,
+                'target' => $targetWithoutPattern,
+                'expectedItems' => [
+                    'some-label' => [
+                        0 => [
+                            'type' => TaskStack::TYPE_FILE,
+                            'source' => 'test-templates/fake.host.test/fake-user/parent-folder/project-folder/' . $source,
+                            'target' => ltrim($source, '/'),
+                            'matched' => true,
+                        ],
+                    ],
+                ],
+            ],
+            'default pattern #1 matches without target pattern' => [
+                'files' => [
+                    'test-templates/fake.host.test/fake-user/project-folder/' . $source => 'dummy-text',
+                ],
+                'isDDEV' => false,
+                'source' => $source,
+                'target' => $targetWithoutPattern,
+                'expectedItems' => [
+                    'some-label' => [
+                        0 => [
+                            'type' => TaskStack::TYPE_FILE,
+                            'source' => 'test-templates/fake.host.test/fake-user/project-folder/' . $source,
+                            'target' => ltrim($source, '/'),
+                            'matched' => true,
+                        ],
+                    ],
+                ],
+            ],
+            'default pattern #2 matches without target pattern' => [
+                'files' => [
+                    'test-templates/fake.host.test/fake-user/' . $source => 'dummy-text',
+                ],
+                'isDDEV' => false,
+                'source' => $source,
+                'target' => $targetWithoutPattern,
+                'expectedItems' => [
+                    'some-label' => [
+                        0 => [
+                            'type' => TaskStack::TYPE_FILE,
+                            'source' => 'test-templates/fake.host.test/fake-user/' . $source,
+                            'target' => ltrim($source, '/'),
+                            'matched' => true,
+                        ],
+                    ],
+                ],
+            ],
+            'default pattern #3 matches without target pattern' => [
+                'files' => [
+                    'test-templates/fake.host.test/parent-folder/project-folder/' . $source => 'dummy-text',
+                ],
+                'isDDEV' => false,
+                'source' => $source,
+                'target' => $targetWithoutPattern,
+                'expectedItems' => [
+                    'some-label' => [
+                        0 => [
+                            'type' => TaskStack::TYPE_FILE,
+                            'source' => 'test-templates/fake.host.test/parent-folder/project-folder/' . $source,
+                            'target' => ltrim($source, '/'),
+                            'matched' => true,
+                        ],
+                    ],
+                ],
+            ],
+            'default pattern #4 matches without target pattern' => [
+                'files' => [
+                    'test-templates/fake.host.test/project-folder/' . $source => 'dummy-text',
+                ],
+                'isDDEV' => false,
+                'source' => $source,
+                'target' => $targetWithoutPattern,
+                'expectedItems' => [
+                    'some-label' => [
+                        0 => [
+                            'type' => TaskStack::TYPE_FILE,
+                            'source' => 'test-templates/fake.host.test/project-folder/' . $source,
+                            'target' => ltrim($source, '/'),
+                            'matched' => true,
+                        ],
+                    ],
+                ],
+            ],
+            'default pattern #5 matches without target pattern' => [
+                'files' => [
+                    'test-templates/fake.host.test/' . $source => 'dummy-text',
+                ],
+                'isDDEV' => false,
+                'source' => $source,
+                'target' => $targetWithoutPattern,
+                'expectedItems' => [
+                    'some-label' => [
+                        0 => [
+                            'type' => TaskStack::TYPE_FILE,
+                            'source' => 'test-templates/fake.host.test/' . $source,
+                            'target' => ltrim($source, '/'),
+                            'matched' => true,
+                        ],
+                    ],
+                ],
+            ],
+            'default pattern #6 matches without target pattern' => [
+                'files' => [
+                    'test-templates/fake-user/parent-folder/project-folder/' . $source => 'dummy-text',
+                ],
+                'isDDEV' => false,
+                'source' => $source,
+                'target' => $targetWithoutPattern,
+                'expectedItems' => [
+                    'some-label' => [
+                        0 => [
+                            'type' => TaskStack::TYPE_FILE,
+                            'source' => 'test-templates/fake-user/parent-folder/project-folder/' . $source,
+                            'target' => ltrim($source, '/'),
+                            'matched' => true,
+                        ],
+                    ],
+                ],
+            ],
+            'default pattern #7 matches without target pattern' => [
+                'files' => [
+                    'test-templates/fake-user/project-folder/' . $source => 'dummy-text',
+                ],
+                'isDDEV' => false,
+                'source' => $source,
+                'target' => $targetWithoutPattern,
+                'expectedItems' => [
+                    'some-label' => [
+                        0 => [
+                            'type' => TaskStack::TYPE_FILE,
+                            'source' => 'test-templates/fake-user/project-folder/' . $source,
+                            'target' => ltrim($source, '/'),
+                            'matched' => true,
+                        ],
+                    ],
+                ],
+            ],
+            'default pattern #8 matches without target pattern' => [
+                'files' => [
+                    'test-templates/fake-user/' . $source => 'dummy-text',
+                ],
+                'isDDEV' => false,
+                'source' => $source,
+                'target' => $targetWithoutPattern,
+                'expectedItems' => [
+                    'some-label' => [
+                        0 => [
+                            'type' => TaskStack::TYPE_FILE,
+                            'source' => 'test-templates/fake-user/' . $source,
+                            'target' => ltrim($source, '/'),
+                            'matched' => true,
+                        ],
+                    ],
+                ],
+            ],
+            'default pattern #9 matches without target pattern' => [
+                'files' => [
+                    'test-templates/parent-folder/project-folder/' . $source => 'dummy-text',
+                ],
+                'isDDEV' => false,
+                'source' => $source,
+                'target' => $targetWithoutPattern,
+                'expectedItems' => [
+                    'some-label' => [
+                        0 => [
+                            'type' => TaskStack::TYPE_FILE,
+                            'source' => 'test-templates/parent-folder/project-folder/' . $source,
+                            'target' => ltrim($source, '/'),
+                            'matched' => true,
+                        ],
+                    ],
+                ],
+            ],
+            'default pattern #10 matches without target pattern' => [
+                'files' => [
+                    'test-templates/project-folder/' . $source => 'dummy-text',
+                ],
+                'isDDEV' => false,
+                'source' => $source,
+                'target' => $targetWithoutPattern,
+                'expectedItems' => [
+                    'some-label' => [
+                        0 => [
+                            'type' => TaskStack::TYPE_FILE,
+                            'source' => 'test-templates/project-folder/' . $source,
+                            'target' => ltrim($source, '/'),
+                            'matched' => true,
+                        ],
+                    ],
+                ],
+            ],
+            'default pattern #11 matches without target pattern' => [
+                'files' => [
+                    'test-templates/ddev/' . $source => 'dummy-text',
+                ],
+                'isDDEV' => true,
+                'source' => $source,
+                'target' => $targetWithoutPattern,
+                'expectedItems' => [
+                    'some-label' => [
+                        0 => [
+                            'type' => TaskStack::TYPE_FILE,
+                            'source' => 'test-templates/ddev/' . $source,
+                            'target' => ltrim($source, '/'),
+                            'matched' => true,
+                        ],
+                    ],
+                ],
+            ],
+            'default pattern #12 matches without target pattern' => [
+                'files' => [
+                    'test-templates/default/' . $source => 'dummy-text',
+                ],
+                'isDDEV' => false,
+                'source' => $source,
+                'target' => $targetWithoutPattern,
+                'expectedItems' => [
+                    'some-label' => [
+                        0 => [
+                            'type' => TaskStack::TYPE_FILE,
+                            'source' => 'test-templates/default/' . $source,
+                            'target' => ltrim($source, '/'),
+                            'matched' => true,
+                        ],
+                    ],
+                ],
+            ],
+            'no matches without target pattern' => [
+                'files' => [],
+                'isDDEV' => false,
+                'source' => $source,
+                'target' => $targetWithoutPattern,
                 'expectedItems' => [
                     'some-label' => [
                         0 => [
@@ -310,13 +593,15 @@ class FilesProvideHandlerTest extends TestCase
      * @dataProvider correctSourceFileMatchedDataProvider
      * @param array<non-empty-string, string> $files
      * @param bool $isDDEV
+     * @param non-empty-string $source
+     * @param non-empty-string $target
      * @param array<non-empty-string, list<array{type: string, source: string, target: string, matched: bool}>> $expectedItems
      */
-    public function correctSourceFileMatched(array $files, bool $isDDEV, array $expectedItems): void
+    public function correctSourceFileMatched(array $files, bool $isDDEV, string $source, string $target, array $expectedItems): void
     {
         chdir($this->sourcePath);
         $this->ensureSourceFiles($files);
-        $fileProviderHandler = $this->createFileProvideHandler($isDDEV);
+        $fileProviderHandler = $this->createFileProvideHandler($isDDEV, $source, $target);
 
         $taskStack = new TaskStack();
         $fileProviderHandler->match($taskStack);
@@ -348,15 +633,14 @@ class FilesProvideHandlerTest extends TestCase
         return $return;
     }
 
-    protected function createFileProvideHandler(bool $isDDEV): FileProvideHandler
+    protected function createFileProvideHandler(bool $isDDEV, string $source = '/sub-path/some-file.txt', string $target = '%s%'): FileProvideHandler
     {
         return new FileProvideHandler(
             FileConfig::fromArray(
                 [
                     'label' => 'some-label',
-                    'source' => '/sub-path/some-file.txt',
-                    //'target' => $this->targetPath . '/%s%',
-                    'target' => 'sub-path/some-file.txt',
+                    'source' => $source,
+                    'target' => $target,
                     'resolver' => 'default',
                 ],
                 [

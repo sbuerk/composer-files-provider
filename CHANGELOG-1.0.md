@@ -7,6 +7,10 @@ in 1.0 minor versions.
 To get the diff for a specific change, go to https://github.com/sbuerk/composer-files-provider/commit/XXX where XXX is the change hash
 To get the diff between two versions, go to https://github.com/sbuerk/composer-files-provider/compare/1.0.8...1.0.9
 
+* 1.0.10 (????-??-??)
+
+  * [BUGFIX] Allow pattern replacement for file config target
+
 * 1.0.9 (2022-09-15)
 
   * [BUGFIX] Ensure configured files target is used for copy destination 

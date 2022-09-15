@@ -50,7 +50,7 @@ class FileProvideHandler
                 $fileProviderTaskStack->add(
                     $this,
                     $resolvedPattern,
-                    $this->filesystem->normalizePath($this->fileConfig->target()),
+                    $this->filesystem->normalizePath($this->fileConfig->resolver()->patternReplacer()->replace($this->fileConfig->target(), $this->fileConfig->source())),
                     true,
                     TaskStack::TYPE_FILE
                 );
