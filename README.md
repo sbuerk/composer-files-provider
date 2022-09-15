@@ -220,8 +220,8 @@ For now, no GitHub releases are planed to be created.
 
 ```shell
 # Add/Adjust CHANGELOG Entry (needed to create release commit)
-$ git commit -am "[RELEASE] 1.0.10 Allow pattern replacement for file config target"
-$ git tag 1.0.10
+$ git commit -am "[RELEASE] 1.0.11 Add string environment variable placeholder for pattern"
+$ git tag 1.0.11
 $ git push
 $ git push --tags
 ```
