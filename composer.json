@@ -61,11 +61,11 @@
         "ci:php:phpstan:check": [
             "@php vendor/bin/phpstan analyse -c Build/phpstan/phpstan.neon --no-progress --no-interaction --memory-limit 4G"
         ],
+        "ci:php:phpstan:check:github": [
+            "@php vendor/bin/phpstan analyse -c Build/phpstan/phpstan.neon --no-progress --no-interaction --memory-limit 4G --error-format=github"
+        ],
         "ci:php:phpstan:baseline": [
             "@php vendor/bin/phpstan analyse -c Build/phpstan/phpstan.neon --no-progress --no-interaction --memory-limit 4G --generate-baseline=Build/phpstan/phpstan-baseline.neon"
-        ],
-        "dev:filesproviderplugin:listen": [
-            "SBUERK\\FilesProvider\\FilesProviderPlugin::listen"
         ]
     },
     "scripts-descriptions": {

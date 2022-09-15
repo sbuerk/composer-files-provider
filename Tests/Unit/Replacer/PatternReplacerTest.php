@@ -105,14 +105,14 @@ class PatternReplacerTest extends TestCase
             '"%h%" gets replaced' => [
                 'replacer' => $defaultReplacer,
                 'pattern' => '/some/paths/%h%/some-file.txt',
-                'source' => 'files-to-find.ext',
-                'expected' => '/some/paths/fake-host/some-file.ext',
+                'source' => 'files-to-find.txt',
+                'expected' => '/some/paths/fake.host.test/some-file.txt',
             ],
             '"%t" gets replaced' => [
                 'replacer' => $defaultReplacer,
                 'pattern' => '%t%/some/paths/some-file.txt',
-                'source' => 'files-to-find.ext',
-                'expected' => 'test-templates/some/paths/some-file.ext',
+                'source' => 'files-to-find.txt',
+                'expected' => 'test-templates/some/paths/some-file.txt',
             ],
         ];
     }
@@ -121,7 +121,7 @@ class PatternReplacerTest extends TestCase
      * @test
      * @dataProvider patternAreCorrectlyReplacedDataProvider
      */
-    protected function patternAreCorrectlyReplaced(\SBUERK\ComposerFilesProvider\Replacer\PatternReplacer $replacer, string $pattern, string $source, string $expected): void
+    public function patternAreCorrectlyReplaced(\SBUERK\ComposerFilesProvider\Replacer\PatternReplacer $replacer, string $pattern, string $source, string $expected): void
     {
         self::assertSame($expected, $replacer->replace($pattern, $source));
     }

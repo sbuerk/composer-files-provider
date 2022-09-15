@@ -79,6 +79,7 @@ class FilesProvideHandlerTest extends TestCase
     public function correctSourceFileMatchedDataProvider(): array
     {
         $source = 'sub-path/some-file.txt';
+        $sourceWithEmptyPathSegment = 'sub-path//some-file.txt';
         $fileHandlerSource = '/sub-path/some-file.txt';
         $targetSourcePattern = '%s%';
         $targetWithoutPattern = $source;
@@ -557,6 +558,24 @@ class FilesProvideHandlerTest extends TestCase
                 ],
                 'isDDEV' => false,
                 'source' => $source,
+                'target' => $targetWithoutPattern,
+                'expectedItems' => [
+                    'some-label' => [
+                        0 => [
+                            'type' => TaskStack::TYPE_FILE,
+                            'source' => 'test-templates/default/' . $source,
+                            'target' => ltrim($source, '/'),
+                            'matched' => true,
+                        ],
+                    ],
+                ],
+            ],
+            'empty path segment gets normalized' => [
+                'files' => [
+                    'test-templates/default/' . $source => 'dummy-text',
+                ],
+                'isDDEV' => false,
+                'source' => $sourceWithEmptyPathSegment,
                 'target' => $targetWithoutPattern,
                 'expectedItems' => [
                     'some-label' => [

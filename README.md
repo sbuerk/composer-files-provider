@@ -202,15 +202,16 @@ which displays something like that:
 
 ## Available Placeholders
 
-| short  | description                                                             |
-|--------|-------------------------------------------------------------------------|
-| %s%    | This will be replaced with the corresponding file block 'source'        |
-| %t%    | This will be replaced with the configured template folder               |
-| %h%    | This will be replaced with the hostname                                 |
-| %u%    | This will be replaced with the username                                 |
-| %p%    | This will be replaced with the project folder name                      |
-| %pp%   | This will be replaced with the parent folder name of the project folder |
-| %ddev% | If processed in DDEV container, this will be replaced with "ddev"       |
+| short                                         | description                                                             |
+|-----------------------------------------------|-------------------------------------------------------------------------|
+| %s%                                           | This will be replaced with the corresponding file block 'source'        |
+| %t%                                           | This will be replaced with the configured template folder               |
+| %h%                                           | This will be replaced with the hostname                                 |
+| %u%                                           | This will be replaced with the username                                 |
+| %p%                                           | This will be replaced with the project folder name                      |
+| %pp%                                          | This will be replaced with the parent folder name of the project folder |
+| %ddev%                                        | If processed in DDEV container, this will be replaced with "ddev"       |
+| %env(string:envVariableName[:default value])% | Env variable placeholder with default value support                     |
 
 # Tagging & Releasing
 

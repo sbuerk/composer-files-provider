@@ -119,6 +119,19 @@ class PatternReplacer
             array_values($map),
             $pattern
         );
+        $pattern = $this->replacePlaceholders($pattern);
+        return $pattern;
+    }
+
+    protected function replacePlaceholders(string $pattern): string
+    {
+        $pattern = (string)preg_replace_callback(
+            '/%env\([a-zA-Z\s\:_]+\)/',
+            function (array $matches): string {
+                return (new EnvPlaceholderReplacer())->replace($matches[0]);
+            },
+            $pattern
+        );
         return $pattern;
     }
 

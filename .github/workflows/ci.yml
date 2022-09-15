@@ -69,7 +69,7 @@ jobs:
         run: composer cgl:check
 
       - name: Static Code Analysis
-        run: composer ci:php:phpstan:check
+        run: composer ci:php:phpstan:check:github
 
       - name: UnitTests
         run: composer ci:php:tests:unit
