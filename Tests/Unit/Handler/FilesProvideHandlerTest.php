@@ -355,7 +355,8 @@ class FilesProvideHandlerTest extends TestCase
                 [
                     'label' => 'some-label',
                     'source' => '/sub-path/some-file.txt',
-                    'target' => $this->targetPath . '/%s%',
+                    //'target' => $this->targetPath . '/%s%',
+                    'target' => 'sub-path/some-file.txt',
                     'resolver' => 'default',
                 ],
                 [
